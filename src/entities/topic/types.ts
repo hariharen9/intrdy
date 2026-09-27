@@ -100,3 +100,13 @@ export interface CourseData {
   qaAdvanced: QAItem[]
   wizardTree: Record<string, WizardNode>
 }
+
+export interface PinItem {
+  id: string
+  topicId: string
+  topicTitle: string
+  sectionNo?: string
+  text: string
+  createdAt: number
+}
+

@@ -14,6 +14,8 @@ export interface CourseHeaderProps {
   completedCount: number
   totalCount: number
   progressPercent: number
+  pinsCount?: number
+  onOpenPins?: () => void
   onToggleMobileMenu?: () => void
 }
 
@@ -26,6 +28,8 @@ export function CourseHeader({
   completedCount,
   totalCount,
   progressPercent,
+  pinsCount = 0,
+  onOpenPins,
   onToggleMobileMenu,
 }: CourseHeaderProps) {
   const slug = meta?.slug || 'course'
@@ -98,8 +102,30 @@ export function CourseHeader({
           </div>
         </div>
 
-        {/* Right: Mode Switcher, Progress, Theme */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Right: Mode Switcher, Pins, Progress, Theme */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {/* Revision Pins Button */}
+          {onOpenPins && (
+            <button
+              type="button"
+              onClick={onOpenPins}
+              className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-xs mono font-semibold transition cursor-pointer flex items-center gap-1.5 ${
+                pinsCount > 0
+                  ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--panel2)] hover:bg-[var(--accent)] hover:text-slate-950 shadow-xs'
+                  : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel2)]'
+              }`}
+              title="Open your saved revision pins for quick review"
+            >
+              <span>📌</span>
+              <span className="hidden sm:inline">Pins</span>
+              {pinsCount > 0 && (
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-[var(--accent)] text-slate-950">
+                  {pinsCount}
+                </span>
+              )}
+            </button>
+          )}
+
           {/* View Mode Toggle Switch */}
           <div className="flex items-center rounded-lg border border-[var(--border)] bg-[var(--panel2)] p-0.5 text-xs mono">
             <button

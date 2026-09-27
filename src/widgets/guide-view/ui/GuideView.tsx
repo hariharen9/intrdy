@@ -1,21 +1,24 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CourseData } from '@/entities/topic'
 import { QAAccordion } from '@/features/qa-accordion'
+import { HighlightFloatingButton } from '@/features/pins'
 import { TopicBodyRenderer } from '@/widgets/diagram-renderers'
 
 export interface GuideViewProps {
   course: CourseData
+  selectedTopicId?: string
+  onPin?: (item: { topicId: string; topicTitle: string; text: string; sectionNo?: string }) => void
 }
 
-export function GuideView({ course }: GuideViewProps) {
+export function GuideView({ course, selectedTopicId, onPin }: GuideViewProps) {
   const [activeSectionId, setActiveSectionId] = useState<string>(
-    course.topics[0]?.id ?? 'why',
+    selectedTopicId ?? course.topics[0]?.id ?? 'why',
   )
   const [scrollProgress, setScrollProgress] = useState<number>(0)
   const [mobileTocOpen, setMobileTocOpen] = useState(false)
   const guideContentRef = useRef<HTMLDivElement>(null)
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = useCallback((id: string) => {
     const el = document.getElementById(id)
     const container = guideContentRef.current
     if (el && container) {
@@ -24,7 +27,14 @@ export function GuideView({ course }: GuideViewProps) {
       const scrollOffset = elTop - containerTop + container.scrollTop - 20
       container.scrollTo({ top: scrollOffset, behavior: 'smooth' })
     }
-  }
+  }, [guideContentRef])
+
+  // Scroll to target section if selectedTopicId changes externally
+  useEffect(() => {
+    if (selectedTopicId) {
+      scrollToSection(selectedTopicId)
+    }
+  }, [selectedTopicId, scrollToSection])
 
   useEffect(() => {
     const container = guideContentRef.current
@@ -278,6 +288,24 @@ export function GuideView({ course }: GuideViewProps) {
           </footer>
         </div>
       </main>
+
+      {/* Floating Pin Button for Text Highlights */}
+      {onPin && (
+        <HighlightFloatingButton
+          onPin={(text) => {
+            const activeTopic =
+              course.topics.find((t) => t.id === activeSectionId) || course.topics[0]
+            if (activeTopic) {
+              onPin({
+                topicId: activeTopic.id,
+                topicTitle: activeTopic.title,
+                sectionNo: activeTopic.sectionNo,
+                text,
+              })
+            }
+          }}
+        />
+      )}
     </div>
   )
 }

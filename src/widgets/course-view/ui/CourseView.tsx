@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CourseData, Topic } from '@/entities/topic'
 import { QAAccordion } from '@/features/qa-accordion'
+import { HighlightFloatingButton } from '@/features/pins'
 import { TopicBodyRenderer } from '@/widgets/diagram-renderers'
 
 export interface CourseViewProps {
@@ -10,6 +11,8 @@ export interface CourseViewProps {
   searchQuery: string
   mobileOpen: boolean
   onCloseMobile: () => void
+  selectedTopicId?: string
+  onPin?: (item: { topicId: string; topicTitle: string; text: string; sectionNo?: string }) => void
 }
 
 const DEFAULT_FALLBACK_TOPIC: Topic = {
@@ -27,11 +30,20 @@ export function CourseView({
   searchQuery,
   mobileOpen,
   onCloseMobile,
+  selectedTopicId,
+  onPin,
 }: CourseViewProps) {
-  const [activeTopicId, setActiveTopicId] = useState<string>(
-    course.topics[0]?.id ?? DEFAULT_FALLBACK_TOPIC.id,
-  )
+  const [internalTopicId, setInternalTopicId] = useState<string | null>(null)
+  const [prevSelectedProp, setPrevSelectedProp] = useState<string | undefined>(selectedTopicId)
   const mainContentRef = useRef<HTMLElement>(null)
+
+  if (selectedTopicId !== prevSelectedProp) {
+    setPrevSelectedProp(selectedTopicId)
+    setInternalTopicId(selectedTopicId ?? null)
+  }
+
+  const activeTopicId =
+    internalTopicId ?? selectedTopicId ?? course.topics[0]?.id ?? DEFAULT_FALLBACK_TOPIC.id
 
   // Prevent background scrolling when mobile drawer is open
   useEffect(() => {
@@ -87,7 +99,7 @@ export function CourseView({
   const isDone = !!progress[activeTopic.id]
 
   const handleSelectTopic = (id: string) => {
-    setActiveTopicId(id)
+    setInternalTopicId(id)
     onCloseMobile()
     if (mainContentRef.current) {
       mainContentRef.current.scrollTo({ top: 0, behavior: 'smooth' })
@@ -327,6 +339,20 @@ export function CourseView({
           </footer>
         </div>
       </main>
+
+      {/* Floating Pin Button for Text Highlights */}
+      {onPin && (
+        <HighlightFloatingButton
+          onPin={(text) => {
+            onPin({
+              topicId: activeTopic.id,
+              topicTitle: activeTopic.title,
+              sectionNo: activeTopic.sectionNo,
+              text,
+            })
+          }}
+        />
+      )}
     </div>
   )
 }
