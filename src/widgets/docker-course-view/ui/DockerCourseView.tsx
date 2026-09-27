@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   type CourseData,
   dockerCourse,
@@ -35,6 +35,7 @@ export function DockerCourseView({
   const [activeTopicId, setActiveTopicId] = useState<string>(
     course.topics[0]?.id ?? DEFAULT_FALLBACK_TOPIC.id,
   )
+  const mainContentRef = useRef<HTMLElement>(null)
 
   // Prevent background scrolling when mobile drawer is open
   useEffect(() => {
@@ -92,7 +93,9 @@ export function DockerCourseView({
   const handleSelectTopic = (id: string) => {
     setActiveTopicId(id)
     onCloseMobile()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   const renderNavItems = () => {
@@ -175,16 +178,9 @@ export function DockerCourseView({
   }
 
   return (
-    <div className="flex flex-1 max-w-[1440px] mx-auto w-full min-h-[calc(100vh-60px)]">
-      {/* Desktop Sidebar */}
-      <aside
-        className="hidden md:block w-72 lg:w-80 shrink-0 border-r border-[var(--border)] overflow-y-auto"
-        style={{
-          maxHeight: 'calc(100vh - 58px)',
-          position: 'sticky',
-          top: '58px',
-        }}
-      >
+    <div className="flex flex-1 max-w-[1440px] mx-auto w-full h-full min-h-0 overflow-hidden">
+      {/* Desktop Sidebar: Independent scroll container that stays completely fixed when content scrolls */}
+      <aside className="hidden md:block w-72 lg:w-80 h-full overflow-y-auto shrink-0 border-r border-[var(--border)]">
         <nav className="py-3 pr-1">{renderNavItems()}</nav>
       </aside>
 
@@ -219,9 +215,12 @@ export function DockerCourseView({
         <nav className="py-2.5 pb-8">{renderNavItems()}</nav>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 min-w-0 px-3.5 sm:px-8 lg:px-12 py-6 sm:py-8 max-w-4xl mx-auto w-full">
-        <div className="fade-in">
+      {/* Main Content Area: Independent scroll container */}
+      <main
+        ref={mainContentRef}
+        className="flex-1 h-full overflow-y-auto min-w-0 px-3.5 sm:px-8 lg:px-12 py-6 sm:py-8"
+      >
+        <div className="max-w-4xl mx-auto w-full fade-in">
           {activeTopic.id === 'interview-fund' ? (
             <div>
               <QAAccordion
@@ -260,7 +259,7 @@ export function DockerCourseView({
               </h1>
 
               {/* Body */}
-              <TopicBodyRenderer blocks={activeTopic.body} />
+              <TopicBodyRenderer blocks={activeTopic.body} wizardTree={course.wizardTree} />
 
               {/* Completion Toggle */}
               <div className="mt-8 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
@@ -325,6 +324,11 @@ export function DockerCourseView({
               </button>
             )}
           </div>
+
+          {/* Course View Footer */}
+          <footer className="mt-12 text-center text-xs py-7 border-t border-[var(--border)] mono text-[var(--muted)] px-4">
+            {course.meta.footerText}
+          </footer>
         </div>
       </main>
     </div>

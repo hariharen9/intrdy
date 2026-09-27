@@ -54,10 +54,11 @@ export function DockerHeader({
             title="Back to Topic Hub"
           >
             <img src="/favicon.svg" alt="INTRDY Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-md sm:rounded-lg shadow-xs shrink-0 transition-transform group-hover:scale-105" />
-            <div className="flex flex-col min-w-0">
+            <div className="flex items-center min-w-0">
               <span className="mono font-bold tracking-tight text-[13px] sm:text-[15px] md:text-[16px] text-[var(--text)] truncate">
+                {meta?.icon && <span className="mr-1 inline-block">{meta.icon}</span>}
                 {slug}
-                <span className="accent-text font-normal hidden xs:inline">://</span>
+                <span className="accent-text font-normal">://</span>
                 <span className="hidden sm:inline">zero-to-hero</span>
               </span>
             </div>

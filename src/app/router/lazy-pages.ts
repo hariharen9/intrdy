@@ -8,7 +8,10 @@ export const DockerPage = lazy(() =>
   import('@/pages/docker').then((page) => ({ default: page.DockerPage })),
 )
 
+export const K8sPage = lazy(() =>
+  import('@/pages/k8s').then((page) => ({ default: page.K8sPage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )
-

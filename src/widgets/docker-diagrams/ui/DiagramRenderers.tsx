@@ -2,6 +2,7 @@ import type {
   FlowStepItem,
   StackLayerItem,
   TopicBlock,
+  WizardNode,
 } from '@/entities/topic'
 import { renderInline } from '@/shared'
 import { CodeBlock } from '@/features/code-block'
@@ -146,7 +147,13 @@ export function StackColumn({
   )
 }
 
-export function TopicBodyRenderer({ blocks }: { blocks: TopicBlock[] }) {
+export function TopicBodyRenderer({
+  blocks,
+  wizardTree,
+}: {
+  blocks: TopicBlock[]
+  wizardTree?: Record<string, WizardNode>
+}) {
   return (
     <div className="space-y-4">
       {blocks.map((b, idx) => {
@@ -417,7 +424,7 @@ export function TopicBodyRenderer({ blocks }: { blocks: TopicBlock[] }) {
         }
 
         if (b.t === 'wizard') {
-          return <DebugWizard key={idx} />
+          return <DebugWizard key={idx} tree={wizardTree} />
         }
 
         return null

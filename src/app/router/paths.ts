@@ -1,6 +1,7 @@
 export const ROUTES = {
   home: '/',
   docker: '/docker',
+  kubernetes: '/kubernetes',
   notFound: '*',
 } as const
 

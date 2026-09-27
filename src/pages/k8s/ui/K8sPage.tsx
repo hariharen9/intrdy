@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { dockerCourse } from '@/entities/topic'
+import { k8sCourse } from '@/entities/k8s'
 import { useProgress } from '@/features/progress-tracker'
 import {
   DockerCourseView,
@@ -8,14 +8,14 @@ import {
   type ViewMode,
 } from '@/widgets'
 
-export function DockerPage() {
+export function K8sPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('app')
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const { progress, toggleTopic, total, completed, percent } = useProgress(
-    dockerCourse.meta.storageKey,
-    dockerCourse.topics,
+    k8sCourse.meta.storageKey,
+    k8sCourse.topics,
   )
 
   return (
@@ -23,7 +23,7 @@ export function DockerPage() {
       {/* Header with view toggler, search, progress, and theme switcher */}
       <div className="shrink-0">
         <DockerHeader
-          meta={dockerCourse.meta}
+          meta={k8sCourse.meta}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
           searchQuery={searchQuery}
@@ -39,7 +39,7 @@ export function DockerPage() {
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {viewMode === 'app' ? (
           <DockerCourseView
-            course={dockerCourse}
+            course={k8sCourse}
             progress={progress}
             onToggleProgress={toggleTopic}
             searchQuery={searchQuery}
@@ -47,7 +47,7 @@ export function DockerPage() {
             onCloseMobile={() => setMobileMenuOpen(false)}
           />
         ) : (
-          <DockerGuideView course={dockerCourse} />
+          <DockerGuideView course={k8sCourse} />
         )}
       </div>
     </div>
