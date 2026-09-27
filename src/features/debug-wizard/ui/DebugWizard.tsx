@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DOCKER_WIZARD_TREE, type WizardNode } from '@/entities/topic'
+import type { WizardNode } from '@/entities/topic'
+import { DOCKER_WIZARD_TREE } from '@/entities/docker'
 import { renderInline } from '@/shared'
 import { CodeBlock } from '@/features/code-block'
 

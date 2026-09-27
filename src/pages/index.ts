@@ -1,3 +1,5 @@
 export * from './home'
+export * from './course'
 export * from './docker'
+export * from './k8s'
 export * from './not-found'

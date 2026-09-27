@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import {
-  type CourseData,
-  dockerCourse,
-} from '@/entities/topic'
+import type { CourseData } from '@/entities/topic'
 import { QAAccordion } from '@/features/qa-accordion'
-import { TopicBodyRenderer } from '@/widgets/docker-diagrams'
+import { TopicBodyRenderer } from '@/widgets/diagram-renderers'
 
-interface DockerGuideViewProps {
-  course?: CourseData
+export interface GuideViewProps {
+  course: CourseData
 }
 
-export function DockerGuideView({ course = dockerCourse }: DockerGuideViewProps) {
+export function GuideView({ course }: GuideViewProps) {
   const [activeSectionId, setActiveSectionId] = useState<string>(
     course.topics[0]?.id ?? 'why',
   )

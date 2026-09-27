@@ -5,7 +5,7 @@ import type { CourseMetadata } from '@/entities/topic'
 
 export type ViewMode = 'app' | 'editorial'
 
-interface DockerHeaderProps {
+export interface CourseHeaderProps {
   meta?: CourseMetadata
   viewMode: ViewMode
   onViewModeChange: (mode: ViewMode) => void
@@ -17,7 +17,7 @@ interface DockerHeaderProps {
   onToggleMobileMenu?: () => void
 }
 
-export function DockerHeader({
+export function CourseHeader({
   meta,
   viewMode,
   onViewModeChange,
@@ -27,8 +27,8 @@ export function DockerHeader({
   totalCount,
   progressPercent,
   onToggleMobileMenu,
-}: DockerHeaderProps) {
-  const slug = meta?.slug || 'docker'
+}: CourseHeaderProps) {
+  const slug = meta?.slug || 'course'
 
   return (
     <header className="panel border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-[var(--panel)]/95 shadow-xs w-full max-w-full">
@@ -72,7 +72,7 @@ export function DockerHeader({
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder={`Search ${slug} topics… (e.g. volumes, CMD)`}
+              placeholder={`Search ${slug} topics… (e.g. volumes, debug)`}
               className="w-full px-3.5 py-1.5 pl-9 rounded-lg text-sm panel2 border border-[var(--border)] outline-none text-[var(--text)] placeholder-[var(--muted)] focus:border-[var(--accent)] transition"
             />
             <svg

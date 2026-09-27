@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  type CourseData,
-  dockerCourse,
-  type Topic,
-} from '@/entities/docker'
+import type { CourseData, Topic } from '@/entities/topic'
 import { QAAccordion } from '@/features/qa-accordion'
-import { TopicBodyRenderer } from '@/widgets/docker-diagrams'
+import { TopicBodyRenderer } from '@/widgets/diagram-renderers'
 
-interface DockerCourseViewProps {
-  course?: CourseData
+export interface CourseViewProps {
+  course: CourseData
   progress: Record<string, boolean>
   onToggleProgress: (id: string) => void
   searchQuery: string
@@ -17,21 +13,21 @@ interface DockerCourseViewProps {
 }
 
 const DEFAULT_FALLBACK_TOPIC: Topic = {
-  id: 'why',
+  id: 'overview',
   group: 'fund',
   level: 'Beginner',
   title: 'Overview',
   body: [],
 }
 
-export function DockerCourseView({
-  course = dockerCourse,
+export function CourseView({
+  course,
   progress,
   onToggleProgress,
   searchQuery,
   mobileOpen,
   onCloseMobile,
-}: DockerCourseViewProps) {
+}: CourseViewProps) {
   const [activeTopicId, setActiveTopicId] = useState<string>(
     course.topics[0]?.id ?? DEFAULT_FALLBACK_TOPIC.id,
   )
