@@ -6,6 +6,7 @@ import { gitCourse } from '@/entities/git'
 import { ansibleCourse } from '@/entities/ansible'
 import { artifactoryCourse } from '@/entities/artifactory'
 import { terraformCourse } from '@/entities/terraform'
+import { dockerCrashCourse } from '@/entities/docker-crash'
 import { useProgress } from '@/features/progress-tracker'
 import { ThemeToggle } from '@/features/theme-toggle'
 
@@ -17,6 +18,7 @@ export function HomePage() {
   const ansible = useProgress(ansibleCourse.meta.storageKey, ansibleCourse.topics)
   const artifactory = useProgress(artifactoryCourse.meta.storageKey, artifactoryCourse.topics)
   const terraform = useProgress(terraformCourse.meta.storageKey, terraformCourse.topics)
+  const dockerCrash = useProgress(dockerCrashCourse.meta.storageKey, dockerCrashCourse.topics)
 
   const upcomingCourses = [
     {
@@ -83,6 +85,14 @@ export function HomePage() {
   ]
 
   const crashCourses = [
+    {
+      course: dockerCrashCourse,
+      progress: dockerCrash,
+      href: '/docker-crash',
+      label: '11 Focused Modules · ~40 min',
+      badge: '⚡ Fast-Track Crash Course',
+      highlight: 'Ultra-clear mental models: container vs VM, core commands, multi-stage builds, port mapping, named volumes & Docker Compose.',
+    },
     {
       course: terraformCourse,
       progress: terraform,

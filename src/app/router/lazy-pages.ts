@@ -32,6 +32,10 @@ export const TerraformPage = lazy(() =>
   import('@/pages/terraform').then((page) => ({ default: page.TerraformPage })),
 )
 
+export const DockerCrashPage = lazy(() =>
+  import('@/pages/docker-crash').then((page) => ({ default: page.DockerCrashPage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )
