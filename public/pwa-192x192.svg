@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="192" height="192">
+  <defs>
+    <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1015" />
+      <stop offset="50%" stop-color="#121820" />
+      <stop offset="100%" stop-color="#18222B" />
+    </linearGradient>
+    <linearGradient id="rdyGrad192" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3FC7B8" />
+      <stop offset="100%" stop-color="#4EEDDC" />
+    </linearGradient>
+    <linearGradient id="borderGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3FC7B8" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#26313B" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#141B22" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Rounded Shield / App Icon -->
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#bgGrad192)" stroke="url(#borderGrad192)" stroke-width="12" />
+
+  <!-- Terminal Bracket Accent -->
+  <path d="M 68 180 L 52 256 L 68 332" fill="none" stroke="#3FC7B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" />
+  <path d="M 444 180 L 460 256 L 444 332" fill="none" stroke="#3FC7B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" />
+
+  <!-- Stacked Brand Typography: INT / RDY -->
+  <text
+    x="256"
+    y="228"
+    text-anchor="middle"
+    font-family="system-ui, -apple-system, 'JetBrains Mono', 'Inter', monospace, sans-serif"
+    font-weight="900"
+    font-size="156"
+    letter-spacing="8"
+    fill="#E7EDF2"
+  >INT</text>
+
+  <text
+    x="256"
+    y="386"
+    text-anchor="middle"
+    font-family="system-ui, -apple-system, 'JetBrains Mono', 'Inter', monospace, sans-serif"
+    font-weight="900"
+    font-size="156"
+    letter-spacing="8"
+    fill="url(#rdyGrad192)"
+  >RDY</text>
+
+  <!-- Active Status Dot -->
+  <circle cx="410" cy="370" r="12" fill="#3FC7B8" />
+</svg>

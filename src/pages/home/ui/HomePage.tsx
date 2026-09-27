@@ -41,7 +41,8 @@ export function HomePage() {
       {/* Top Navigation */}
       <header className="panel border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-[var(--panel)]/95 shadow-xs">
         <div className="flex items-center justify-between px-3.5 sm:px-8 py-3 max-w-[1280px] mx-auto w-full">
-          <Link to="/" className="flex items-center gap-2 select-none group">
+          <Link to="/" className="flex items-center gap-2.5 select-none group">
+            <img src="/favicon.svg" alt="INTRDY Logo" className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-xs transition-transform group-hover:scale-105" />
             <span className="mono font-bold tracking-tight text-base sm:text-lg text-[var(--text)]">
               INT<span className="accent-text">RDY</span>
             </span>

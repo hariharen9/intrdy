@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="180" height="180">
+  <defs>
+    <linearGradient id="bgGradApple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1015" />
+      <stop offset="50%" stop-color="#121820" />
+      <stop offset="100%" stop-color="#18222B" />
+    </linearGradient>
+    <linearGradient id="rdyGradApple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3FC7B8" />
+      <stop offset="100%" stop-color="#4EEDDC" />
+    </linearGradient>
+    <linearGradient id="borderGradApple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3FC7B8" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#26313B" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#141B22" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#bgGradApple)" stroke="url(#borderGradApple)" stroke-width="12" />
+
+  <text
+    x="256"
+    y="228"
+    text-anchor="middle"
+    font-family="system-ui, -apple-system, 'JetBrains Mono', 'Inter', monospace, sans-serif"
+    font-weight="900"
+    font-size="156"
+    letter-spacing="8"
+    fill="#E7EDF2"
+  >INT</text>
+
+  <text
+    x="256"
+    y="386"
+    text-anchor="middle"
+    font-family="system-ui, -apple-system, 'JetBrains Mono', 'Inter', monospace, sans-serif"
+    font-weight="900"
+    font-size="156"
+    letter-spacing="8"
+    fill="url(#rdyGradApple)"
+  >RDY</text>
+
+  <circle cx="410" cy="370" r="12" fill="#3FC7B8" />
+</svg>

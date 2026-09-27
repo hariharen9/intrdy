@@ -28,7 +28,6 @@ export function DockerHeader({
   progressPercent,
   onToggleMobileMenu,
 }: DockerHeaderProps) {
-  const icon = meta?.icon || '🐳'
   const slug = meta?.slug || 'docker'
 
   return (
@@ -54,7 +53,7 @@ export function DockerHeader({
             className="flex items-center gap-2 select-none hover:opacity-85 transition group min-w-0"
             title="Back to Topic Hub"
           >
-            <span className="text-xl sm:text-2xl transition-transform group-hover:scale-110 shrink-0">{icon}</span>
+            <img src="/favicon.svg" alt="INTRDY Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg shadow-xs shrink-0 transition-transform group-hover:scale-105" />
             <div className="flex flex-col min-w-0">
               <span className="mono font-bold tracking-tight text-[13px] sm:text-[15px] md:text-[16px] text-[var(--text)] truncate">
                 {slug}
