@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { dockerCourse } from '@/entities/docker'
 import { k8sCourse } from '@/entities/k8s'
 import { jenkinsCourse } from '@/entities/jenkins'
+import { gitCourse } from '@/entities/git'
 import { useProgress } from '@/features/progress-tracker'
 import { ThemeToggle } from '@/features/theme-toggle'
 
@@ -9,6 +10,7 @@ export function HomePage() {
   const docker = useProgress(dockerCourse.meta.storageKey, dockerCourse.topics)
   const k8s = useProgress(k8sCourse.meta.storageKey, k8sCourse.topics)
   const jenkins = useProgress(jenkinsCourse.meta.storageKey, jenkinsCourse.topics)
+  const git = useProgress(gitCourse.meta.storageKey, gitCourse.topics)
 
   const upcomingCourses = [
     {
@@ -20,12 +22,12 @@ export function HomePage() {
       modulesCount: '16 modules',
     },
     {
-      id: 'git',
-      icon: '🌿',
-      title: 'Git & Trunk-Based CI/CD',
-      tagline: 'DAG internals, fast-forward rebasing, artifact caching & deployment.',
+      id: 'terraform',
+      icon: '🌍',
+      title: 'Terraform & Infrastructure as Code',
+      tagline: 'State management, remote backends, modules, drift detection & policy-as-code.',
       status: 'Coming Soon',
-      modulesCount: '12 modules',
+      modulesCount: '18 modules',
     },
   ]
 
@@ -48,6 +50,12 @@ export function HomePage() {
       href: '/jenkins',
       label: '23 Modules + 20 Q&As',
     },
+    {
+      course: gitCourse,
+      progress: git,
+      href: '/git',
+      label: '24 Modules + 20 Q&As',
+    },
   ]
 
   return (
@@ -65,18 +73,30 @@ export function HomePage() {
             </span>
           </Link>
 
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             <Link
               to="/docker"
-              className="text-xs mono font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               🐳 Docker
             </Link>
             <Link
               to="/kubernetes"
-              className="text-xs mono font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
-              ☸️ Kubernetes
+              ☸️ K8s
+            </Link>
+            <Link
+              to="/jenkins"
+              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+            >
+              ⚙️ Jenkins
+            </Link>
+            <Link
+              to="/git"
+              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+            >
+              🌿 Git
             </Link>
             <ThemeToggle />
           </div>

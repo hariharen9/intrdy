@@ -16,6 +16,10 @@ export const JenkinsPage = lazy(() =>
   import('@/pages/jenkins').then((page) => ({ default: page.JenkinsPage })),
 )
 
+export const GitPage = lazy(() =>
+  import('@/pages/git').then((page) => ({ default: page.GitPage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )
