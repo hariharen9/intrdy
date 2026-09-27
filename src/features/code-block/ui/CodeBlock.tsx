@@ -4,6 +4,7 @@ import 'prismjs/components/prism-bash'
 import 'prismjs/components/prism-docker'
 import 'prismjs/components/prism-yaml'
 import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-groovy'
 
 interface CodeBlockProps {
   code: string
@@ -26,6 +27,9 @@ function getGrammar(lang?: string) {
   }
   if (normalized === 'sh' || normalized === 'bash' || normalized === 'shell') {
     return Prism.languages.bash
+  }
+  if (normalized === 'groovy' || normalized === 'jenkinsfile') {
+    return Prism.languages.groovy || Prism.languages.bash
   }
   return Prism.languages[normalized] || Prism.languages.bash
 }

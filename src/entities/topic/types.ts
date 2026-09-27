@@ -11,6 +11,24 @@ export interface StackLayerItem {
   tone?: 'writable' | 'default'
 }
 
+export interface QuizQuestion {
+  q: string
+  options: string[]
+  correct: number
+  explain: string
+}
+
+export interface CheatsheetItem {
+  term: string
+  def: string
+}
+
+export interface TroubleshootItem {
+  scenario: string
+  diagnosis: string
+  fix: string
+}
+
 export type TopicBlock =
   | { t: 'p'; c: string }
   | { t: 'ul'; c: string[] }
@@ -39,6 +57,10 @@ export type TopicBlock =
       events: { time: string; label: string; status: 'info' | 'fail' | 'ok' }[]
     }
   | { t: 'wizard' }
+  | { t: 'html'; html: string }
+  | { t: 'quiz'; questions: QuizQuestion[] }
+  | { t: 'cheatsheet'; items: CheatsheetItem[] }
+  | { t: 'troubleshoot'; items: TroubleshootItem[] }
 
 export interface TopicGroup {
   id: string

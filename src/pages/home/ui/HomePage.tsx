@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom'
 import { dockerCourse } from '@/entities/docker'
 import { k8sCourse } from '@/entities/k8s'
+import { jenkinsCourse } from '@/entities/jenkins'
 import { useProgress } from '@/features/progress-tracker'
 import { ThemeToggle } from '@/features/theme-toggle'
 
 export function HomePage() {
   const docker = useProgress(dockerCourse.meta.storageKey, dockerCourse.topics)
   const k8s = useProgress(k8sCourse.meta.storageKey, k8sCourse.topics)
+  const jenkins = useProgress(jenkinsCourse.meta.storageKey, jenkinsCourse.topics)
 
   const upcomingCourses = [
     {
@@ -39,6 +41,12 @@ export function HomePage() {
       progress: k8s,
       href: '/kubernetes',
       label: '20 Modules + 23 Scenarios',
+    },
+    {
+      course: jenkinsCourse,
+      progress: jenkins,
+      href: '/jenkins',
+      label: '23 Modules + 20 Q&As',
     },
   ]
 

@@ -2,6 +2,7 @@ export const ROUTES = {
   home: '/',
   docker: '/docker',
   kubernetes: '/kubernetes',
+  jenkins: '/jenkins',
   notFound: '*',
 } as const
 

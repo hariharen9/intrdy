@@ -12,6 +12,10 @@ export const K8sPage = lazy(() =>
   import('@/pages/k8s').then((page) => ({ default: page.K8sPage })),
 )
 
+export const JenkinsPage = lazy(() =>
+  import('@/pages/jenkins').then((page) => ({ default: page.JenkinsPage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )

@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
-import { DockerPage, HomePage, K8sPage, NotFoundPage } from './lazy-pages'
+import { DockerPage, HomePage, JenkinsPage, K8sPage, NotFoundPage } from './lazy-pages'
 import { ROUTES } from './paths'
 import { RouteErrorFallback } from './route-error-fallback'
 import { withPageBoundary } from './with-page-boundary'
@@ -18,6 +18,11 @@ export const routes: RouteObject[] = [
   {
     path: ROUTES.kubernetes,
     element: withPageBoundary(<K8sPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.jenkins,
+    element: withPageBoundary(<JenkinsPage />),
     errorElement: <RouteErrorFallback />,
   },
   {
