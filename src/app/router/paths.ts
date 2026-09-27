@@ -4,6 +4,7 @@ export const ROUTES = {
   kubernetes: '/kubernetes',
   jenkins: '/jenkins',
   git: '/git',
+  ansible: '/ansible',
   notFound: '*',
 } as const
 

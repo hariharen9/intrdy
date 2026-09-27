@@ -3,6 +3,7 @@ import { dockerCourse } from '@/entities/docker'
 import { k8sCourse } from '@/entities/k8s'
 import { jenkinsCourse } from '@/entities/jenkins'
 import { gitCourse } from '@/entities/git'
+import { ansibleCourse } from '@/entities/ansible'
 import { useProgress } from '@/features/progress-tracker'
 import { ThemeToggle } from '@/features/theme-toggle'
 
@@ -11,6 +12,7 @@ export function HomePage() {
   const k8s = useProgress(k8sCourse.meta.storageKey, k8sCourse.topics)
   const jenkins = useProgress(jenkinsCourse.meta.storageKey, jenkinsCourse.topics)
   const git = useProgress(gitCourse.meta.storageKey, gitCourse.topics)
+  const ansible = useProgress(ansibleCourse.meta.storageKey, ansibleCourse.topics)
 
   const upcomingCourses = [
     {
@@ -56,6 +58,12 @@ export function HomePage() {
       href: '/git',
       label: '24 Modules + 20 Q&As',
     },
+    {
+      course: ansibleCourse,
+      progress: ansible,
+      href: '/ansible',
+      label: '24 Modules + 20 Q&As',
+    },
   ]
 
   return (
@@ -73,30 +81,36 @@ export function HomePage() {
             </span>
           </Link>
 
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <Link
               to="/docker"
-              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               🐳 Docker
             </Link>
             <Link
               to="/kubernetes"
-              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               ☸️ K8s
             </Link>
             <Link
               to="/jenkins"
-              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               ⚙️ Jenkins
             </Link>
             <Link
               to="/git"
-              className="text-xs mono font-semibold px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               🌿 Git
+            </Link>
+            <Link
+              to="/ansible"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+            >
+              ⚡ Ansible
             </Link>
             <ThemeToggle />
           </div>

@@ -20,6 +20,10 @@ export const GitPage = lazy(() =>
   import('@/pages/git').then((page) => ({ default: page.GitPage })),
 )
 
+export const AnsiblePage = lazy(() =>
+  import('@/pages/ansible').then((page) => ({ default: page.AnsiblePage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )

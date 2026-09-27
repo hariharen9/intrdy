@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
-import { DockerPage, GitPage, HomePage, JenkinsPage, K8sPage, NotFoundPage } from './lazy-pages'
+import { AnsiblePage, DockerPage, GitPage, HomePage, JenkinsPage, K8sPage, NotFoundPage } from './lazy-pages'
 import { ROUTES } from './paths'
 import { RouteErrorFallback } from './route-error-fallback'
 import { withPageBoundary } from './with-page-boundary'
@@ -28,6 +28,11 @@ export const routes: RouteObject[] = [
   {
     path: ROUTES.git,
     element: withPageBoundary(<GitPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.ansible,
+    element: withPageBoundary(<AnsiblePage />),
     errorElement: <RouteErrorFallback />,
   },
   {
