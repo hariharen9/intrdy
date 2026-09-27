@@ -31,18 +31,18 @@ export function DockerHeader({
   const slug = meta?.slug || 'docker'
 
   return (
-    <header className="panel border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-[var(--panel)]/95 shadow-xs">
-      <div className="flex items-center justify-between gap-2 sm:gap-3 px-3.5 sm:px-5 py-2.5 sm:py-3 max-w-[1440px] mx-auto w-full">
+    <header className="panel border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-[var(--panel)]/95 shadow-xs w-full max-w-full">
+      <div className="flex items-center justify-between gap-1.5 sm:gap-3 px-2.5 sm:px-5 py-2 sm:py-3 max-w-[1440px] mx-auto w-full min-w-0">
         {/* Left: Mobile Menu Toggle + Logo + Home Link */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 min-w-0">
           {viewMode === 'app' && onToggleMobileMenu && (
             <button
               type="button"
               onClick={onToggleMobileMenu}
-              className="md:hidden p-2 -ml-1 rounded-lg hover:bg-[var(--panel2)] active:bg-[var(--panel2)] text-[var(--muted)] hover:text-[var(--text)] transition cursor-pointer min-w-[38px] min-h-[38px] flex items-center justify-center"
+              className="md:hidden p-1.5 -ml-1 rounded-lg hover:bg-[var(--panel2)] active:bg-[var(--panel2)] text-[var(--muted)] hover:text-[var(--text)] transition cursor-pointer min-w-[34px] min-h-[34px] flex items-center justify-center shrink-0"
               aria-label="Open topics navigation"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M3 6h18M3 12h18M3 18h18" />
               </svg>
             </button>
@@ -50,15 +50,15 @@ export function DockerHeader({
 
           <Link
             to="/"
-            className="flex items-center gap-2 select-none hover:opacity-85 transition group min-w-0"
+            className="flex items-center gap-1.5 sm:gap-2 select-none hover:opacity-85 transition group min-w-0"
             title="Back to Topic Hub"
           >
-            <img src="/favicon.svg" alt="INTRDY Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg shadow-xs shrink-0 transition-transform group-hover:scale-105" />
+            <img src="/favicon.svg" alt="INTRDY Logo" className="w-6 h-6 sm:w-7 sm:h-7 rounded-md sm:rounded-lg shadow-xs shrink-0 transition-transform group-hover:scale-105" />
             <div className="flex flex-col min-w-0">
               <span className="mono font-bold tracking-tight text-[13px] sm:text-[15px] md:text-[16px] text-[var(--text)] truncate">
                 {slug}
-                <span className="accent-text font-normal">://</span>
-                <span className="inline">zero-to-hero</span>
+                <span className="accent-text font-normal hidden xs:inline">://</span>
+                <span className="hidden sm:inline">zero-to-hero</span>
               </span>
             </div>
           </Link>
