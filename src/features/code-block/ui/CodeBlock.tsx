@@ -63,13 +63,13 @@ export function CodeBlock({
 
   return (
     <div
-      className={`code-block relative group my-4 overflow-hidden border border-[var(--border)] ${className}`}
+      className={`code-block relative group my-4 max-w-full overflow-hidden border border-[var(--border)] rounded-lg sm:rounded-xl shadow-xs ${className}`}
     >
       {title && (
-        <div className="flex items-center justify-between px-3.5 py-2 bg-[var(--panel2)] border-b border-[var(--border)] text-xs text-[var(--muted)] mono">
-          <span>{title}</span>
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[var(--panel2)] border-b border-[var(--border)] text-[11px] sm:text-xs text-[var(--muted)] mono select-none pr-16 sm:pr-20">
+          <span className="truncate pr-2 font-medium">{title}</span>
           {lang && (
-            <span className="uppercase text-[10px] tracking-wider opacity-70 font-semibold">
+            <span className="uppercase text-[10px] tracking-wider opacity-75 font-semibold shrink-0">
               {lang}
             </span>
           )}
@@ -78,7 +78,7 @@ export function CodeBlock({
       <button
         type="button"
         onClick={handleCopy}
-        className="copy-btn absolute top-2.5 right-2.5 z-10 text-[11px] mono px-2.5 py-1 rounded bg-[var(--panel2)] hover:bg-[var(--panel)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--border)] transition shadow-sm cursor-pointer"
+        className="copy-btn absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-10 text-[11px] mono px-2.5 py-1 rounded-md bg-[var(--panel2)] hover:bg-[var(--panel)] active:scale-95 text-[var(--muted)] hover:text-[var(--text)] border border-[var(--border)] transition shadow-xs cursor-pointer select-none min-h-[28px]"
         aria-label="Copy code"
       >
         {copied ? (
@@ -89,7 +89,7 @@ export function CodeBlock({
           <span>copy</span>
         )}
       </button>
-      <pre className="mono text-[13px] leading-relaxed p-4 overflow-x-auto text-[var(--text)] m-0">
+      <pre className="mono text-[12px] sm:text-[13px] leading-relaxed p-3.5 sm:p-4 pr-16 sm:pr-20 overflow-x-auto text-[var(--text)] m-0 scrollbar-thin">
         {highlightedHtml ? (
           <code dangerouslySetInnerHTML={{ __html: highlightedHtml }} />
         ) : (

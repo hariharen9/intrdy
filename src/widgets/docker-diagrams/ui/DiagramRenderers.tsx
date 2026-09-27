@@ -59,13 +59,13 @@ export function FlowBlock({
         : 'text-[var(--accent)]'
 
   return (
-    <div className="my-5">
+    <div className="my-5 w-full max-w-full min-w-0">
       {heading && (
         <div className={`text-xs font-bold mono mb-2.5 ${headingColor}`}>
           {renderInline(heading)}
         </div>
       )}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 pt-1">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 pt-1 scrollbar-thin">
         {steps.map((s, i) => (
           <div key={i} className="flex items-center gap-1.5 shrink-0">
             {s.group ? (
@@ -79,9 +79,9 @@ export function FlowBlock({
             )}
 
             {i < steps.length - 1 && (
-              <div className="flex flex-col items-center px-1 shrink-0 min-w-[32px] sm:min-w-[60px]">
+              <div className="flex flex-col items-center px-1 shrink-0 min-w-[28px] sm:min-w-[50px]">
                 {edges[i] && (
-                  <span className="text-[10px] mono mb-0.5 text-center leading-tight text-[var(--muted)]">
+                  <span className="text-[10px] mono mb-0.5 text-center leading-tight text-[var(--muted)] max-w-[70px] truncate">
                     {renderInline(edges[i])}
                   </span>
                 )}
@@ -108,7 +108,7 @@ export function StackColumn({
   layers: StackLayerItem[]
 }) {
   return (
-    <div className="flex-1 min-w-[200px]">
+    <div className="flex-1 min-w-0 sm:min-w-[180px]">
       {title && (
         <p className="text-sm font-semibold mb-2.5 text-[var(--text)]">
           {renderInline(title)}

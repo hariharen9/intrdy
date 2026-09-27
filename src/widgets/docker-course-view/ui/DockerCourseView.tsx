@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   type CourseData,
   dockerCourse,
@@ -36,6 +36,29 @@ export function DockerCourseView({
     course.topics[0]?.id ?? DEFAULT_FALLBACK_TOPIC.id,
   )
 
+  // Prevent background scrolling when mobile drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileOpen])
+
+  // Close mobile drawer on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileOpen) {
+        onCloseMobile()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [mobileOpen, onCloseMobile])
+
   const filteredTopics = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
     if (!q) return course.topics
@@ -53,6 +76,16 @@ export function DockerCourseView({
       DEFAULT_FALLBACK_TOPIC
     )
   }, [activeTopicId, course.topics])
+
+  const activeTopicIndex = useMemo(() => {
+    return course.topics.findIndex((t) => t.id === activeTopic.id)
+  }, [course.topics, activeTopic.id])
+
+  const prevTopic = activeTopicIndex > 0 ? course.topics[activeTopicIndex - 1] : null
+  const nextTopic =
+    activeTopicIndex >= 0 && activeTopicIndex < course.topics.length - 1
+      ? course.topics[activeTopicIndex + 1]
+      : null
 
   const isDone = !!progress[activeTopic.id]
 
@@ -158,34 +191,36 @@ export function DockerCourseView({
       {/* Mobile Drawer Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-50 md:hidden backdrop-blur-xs transition-opacity"
+          className="fixed inset-0 bg-black/70 z-50 md:hidden backdrop-blur-xs transition-opacity"
           onClick={onCloseMobile}
         />
       )}
 
       {/* Mobile Sidebar */}
       <aside
-        className={`fixed top-0 left-0 bottom-0 w-72 sm:w-80 panel z-50 transition-transform duration-200 md:hidden overflow-y-auto shadow-2xl border-r border-[var(--border)] ${
+        className={`fixed top-0 left-0 bottom-0 w-[85vw] max-w-[320px] panel z-50 transition-transform duration-200 md:hidden overflow-y-auto shadow-2xl border-r border-[var(--border)] ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex justify-between items-center px-4 py-3.5 border-b border-[var(--border)] sticky top-0 bg-[var(--panel)] z-10">
-          <span className="mono font-bold text-sm text-[var(--text)] flex items-center gap-1.5">
-            <span>{course.meta.icon}</span> {course.meta.title}
+          <span className="mono font-bold text-sm text-[var(--text)] flex items-center gap-2 truncate pr-2">
+            <span className="text-lg shrink-0">{course.meta.icon}</span>
+            <span className="truncate">{course.meta.title}</span>
           </span>
           <button
             type="button"
             onClick={onCloseMobile}
-            className="p-1 rounded text-[var(--muted)] hover:text-[var(--text)]"
+            className="p-2 -mr-1 rounded-lg text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel2)] active:bg-[var(--panel2)] min-w-[36px] min-h-[36px] flex items-center justify-center cursor-pointer"
+            aria-label="Close navigation"
           >
             ✕
           </button>
         </div>
-        <nav className="py-2">{renderNavItems()}</nav>
+        <nav className="py-2.5 pb-8">{renderNavItems()}</nav>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 min-w-0 px-4 sm:px-8 lg:px-12 py-8 max-w-4xl">
+      <main className="flex-1 min-w-0 px-3.5 sm:px-8 lg:px-12 py-6 sm:py-8 max-w-4xl mx-auto w-full">
         <div className="fade-in">
           {activeTopic.id === 'interview-fund' ? (
             <div>
@@ -207,7 +242,7 @@ export function DockerCourseView({
             <div>
               {/* Level Badge */}
               {activeTopic.level && (
-                <div className="flex items-center gap-2 mb-2.5">
+                <div className="flex flex-wrap items-center gap-2 mb-3">
                   <span className="badge mono text-xs font-semibold px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] bg-[var(--panel2)]">
                     {activeTopic.level}
                   </span>
@@ -220,7 +255,7 @@ export function DockerCourseView({
               )}
 
               {/* Title */}
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-[42px] font-semibold tracking-tight mb-6 text-[var(--text)] leading-[1.18]">
+              <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-semibold tracking-tight mb-5 text-[var(--text)] leading-[1.18] break-words">
                 {activeTopic.title}
               </h1>
 
@@ -228,11 +263,11 @@ export function DockerCourseView({
               <TopicBodyRenderer blocks={activeTopic.body} />
 
               {/* Completion Toggle */}
-              <div className="mt-8 pt-6 border-t border-[var(--border)] mb-12 flex items-center justify-between">
+              <div className="mt-8 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                 <button
                   type="button"
                   onClick={() => onToggleProgress(activeTopic.id)}
-                  className={`px-4.5 py-2 rounded-lg text-sm mono font-semibold border transition cursor-pointer flex items-center gap-2 ${
+                  className={`w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm mono font-semibold border transition cursor-pointer flex items-center justify-center gap-2 ${
                     isDone
                       ? 'border-[var(--accent)] text-[var(--accent)] bg-teal-950/25 shadow-xs'
                       : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--muted)] bg-[var(--panel2)]'
@@ -249,12 +284,47 @@ export function DockerCourseView({
                   )}
                 </button>
 
-                <span className="text-xs text-[var(--muted)] mono">
+                <span className="text-xs text-[var(--muted)] mono text-center sm:text-right">
                   {isDone ? 'Saved in local storage' : 'Click when finished'}
                 </span>
               </div>
             </div>
           )}
+
+          {/* Sequential Next / Previous Module Navigation */}
+          <div className="mt-8 pt-6 border-t border-[var(--border)] mb-12 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {prevTopic ? (
+              <button
+                type="button"
+                onClick={() => handleSelectTopic(prevTopic.id)}
+                className="w-full text-left p-3.5 rounded-xl border border-[var(--border)] bg-[var(--panel)] hover:border-[var(--muted)] active:bg-[var(--panel2)] transition flex flex-col group cursor-pointer"
+              >
+                <span className="text-[11px] mono text-[var(--muted)] uppercase font-semibold">
+                  ← Previous Module
+                </span>
+                <span className="text-sm font-medium text-[var(--text)] mt-1 truncate group-hover:text-[var(--accent)]">
+                  {prevTopic.title}
+                </span>
+              </button>
+            ) : (
+              <div className="hidden sm:block" />
+            )}
+
+            {nextTopic && (
+              <button
+                type="button"
+                onClick={() => handleSelectTopic(nextTopic.id)}
+                className="w-full text-left sm:text-right p-3.5 rounded-xl border border-[var(--border)] bg-[var(--panel)] hover:border-[var(--accent)] active:bg-[var(--panel2)] transition flex flex-col group cursor-pointer sm:items-end"
+              >
+                <span className="text-[11px] mono text-[var(--accent)] uppercase font-semibold">
+                  Next Module →
+                </span>
+                <span className="text-sm font-medium text-[var(--text)] mt-1 truncate group-hover:text-[var(--accent)]">
+                  {nextTopic.title}
+                </span>
+              </button>
+            )}
+          </div>
         </div>
       </main>
     </div>

@@ -14,25 +14,25 @@ export function DebugWizard({ tree = DOCKER_WIZARD_TREE }: DebugWizardProps) {
   const node: WizardNode = tree[currentStep] || tree.start || { q: '', options: [] }
 
   return (
-    <div className="panel2 rounded-xl border border-[var(--border)] p-5 md:p-6 my-6 max-w-2xl shadow-sm transition-all">
+    <div className="panel2 rounded-xl border border-[var(--border)] p-4 sm:p-5 md:p-6 my-5 sm:my-6 max-w-2xl shadow-sm transition-all">
       {node.options && node.options.length > 0 ? (
         <div className="fade-in">
           <div className="mono text-[11px] font-bold uppercase tracking-wider text-[var(--accent)] mb-2">
             Interactive Triage
           </div>
-          <p className="font-semibold text-base md:text-lg mb-4 text-[var(--text)]">
+          <p className="font-semibold text-[15px] sm:text-base md:text-lg mb-3.5 text-[var(--text)]">
             {node.q ? renderInline(node.q) : ''}
           </p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2">
             {node.options.map((opt) => (
               <button
                 key={opt.next}
                 type="button"
                 onClick={() => setCurrentStep(opt.next)}
-                className="w-full text-left px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--panel)] hover:border-[var(--accent)] hover:translate-x-1 transition flex justify-between items-center text-sm font-medium text-[var(--text)] group"
+                className="w-full text-left px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-lg border border-[var(--border)] bg-[var(--panel)] hover:border-[var(--accent)] active:bg-[var(--panel2)] transition flex justify-between items-center text-xs sm:text-sm font-medium text-[var(--text)] group cursor-pointer min-h-[44px]"
               >
                 <span>{renderInline(opt.label)}</span>
-                <span className="text-[var(--accent)] font-bold text-base transition-transform group-hover:translate-x-0.5">
+                <span className="text-[var(--accent)] font-bold text-base transition-transform group-hover:translate-x-0.5 ml-2 shrink-0">
                   ›
                 </span>
               </button>

@@ -53,6 +53,8 @@ export function DockerGuideView({ course = dockerCourse }: DockerGuideViewProps)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [course.topics])
 
+  const [mobileTocOpen, setMobileTocOpen] = useState(false)
+
   return (
     <div className="w-full relative">
       {/* Top Reading Progress Bar */}
@@ -61,31 +63,31 @@ export function DockerGuideView({ course = dockerCourse }: DockerGuideViewProps)
         style={{ width: `${scrollProgress}%` }}
       />
 
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-8 py-10 md:py-14">
+      <div className="max-w-[1240px] mx-auto px-3.5 sm:px-8 py-8 md:py-14">
         {/* Editorial Hero Banner */}
-        <section className="pb-12 border-b border-[var(--border)]">
-          <div className="grid md:grid-cols-[1.6fr_.9fr] gap-10 items-end">
+        <section className="pb-10 md:pb-12 border-b border-[var(--border)]">
+          <div className="grid md:grid-cols-[1.6fr_.9fr] gap-8 md:gap-10 items-end">
             <div>
               <div className="mono text-xs font-bold text-[var(--accent)] uppercase tracking-widest">
                 {course.meta.badgeText}
               </div>
-              <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl leading-[1.08] tracking-tight mt-4 text-[var(--text)]">
+              <h1 className="font-editorial text-3xl sm:text-5xl md:text-6xl leading-[1.1] tracking-tight mt-3 text-[var(--text)]">
                 {course.meta.title}.<br />
                 <span className="italic opacity-90">{course.meta.tagline}</span>
               </h1>
-              <p className="text-base sm:text-lg text-[var(--muted)] leading-relaxed mt-5 max-w-2xl">
+              <p className="text-[15px] sm:text-lg text-[var(--muted)] leading-relaxed mt-4 sm:mt-5 max-w-2xl">
                 {course.meta.description}
               </p>
             </div>
 
-            <div className="border-l border-[var(--border)] pl-6 pb-2">
-              <div className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold mono">
+            <div className="border-l border-[var(--border)] pl-4 sm:pl-6 pb-1">
+              <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-bold mono">
                 Guiding Principle
               </div>
-              <div className="mt-3 font-editorial text-xl sm:text-2xl leading-snug text-[var(--text)] italic">
+              <div className="mt-2.5 font-editorial text-lg sm:text-2xl leading-snug text-[var(--text)] italic">
                 {course.meta.quote}
               </div>
-              <p className="text-xs sm:text-sm text-[var(--muted)] mt-3 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[var(--muted)] mt-2.5 leading-relaxed">
                 {course.meta.quoteContext}
               </p>
             </div>
@@ -93,10 +95,10 @@ export function DockerGuideView({ course = dockerCourse }: DockerGuideViewProps)
 
           {/* Parts Grid */}
           {course.meta.parts && course.meta.parts.length > 0 && (
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+            <div className="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {course.meta.parts.map((p, pi) => (
-                <div key={pi} className="panel rounded-xl p-4 border border-[var(--border)] shadow-xs">
-                  <div className="text-[11px] mono text-[var(--muted)] font-bold">{p.partNo}</div>
+                <div key={pi} className="panel rounded-xl p-3.5 sm:p-4 border border-[var(--border)] shadow-xs">
+                  <div className="text-[11px] mono text-[var(--accent)] font-bold">{p.partNo}</div>
                   <div className="font-semibold text-sm mt-1 text-[var(--text)]">{p.title}</div>
                   <div className="text-xs text-[var(--muted)] mt-0.5">{p.subtitle}</div>
                 </div>
@@ -105,9 +107,51 @@ export function DockerGuideView({ course = dockerCourse }: DockerGuideViewProps)
           )}
         </section>
 
+        {/* Mobile Quick TOC Toggle Banner */}
+        <div className="lg:hidden mt-6 mb-2">
+          <button
+            type="button"
+            onClick={() => setMobileTocOpen(!mobileTocOpen)}
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--panel)] text-xs mono font-semibold text-[var(--text)] cursor-pointer hover:border-[var(--accent)] transition shadow-xs"
+          >
+            <span className="flex items-center gap-2">
+              <span className="text-[var(--accent)]">📑</span>
+              <span>Jump to Section ({course.topics.length} topics)</span>
+            </span>
+            <span className="text-[var(--muted)]">
+              {mobileTocOpen ? '▲ close' : '▼ browse'}
+            </span>
+          </button>
+
+          {mobileTocOpen && (
+            <div className="mt-2 p-3 rounded-xl border border-[var(--border)] bg-[var(--panel)] max-h-72 overflow-y-auto space-y-1 fade-in shadow-xl">
+              {course.topics.map((t, idx) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    scrollToSection(t.id)
+                    setMobileTocOpen(false)
+                  }}
+                  className={`w-full text-left py-2 px-2.5 rounded-lg text-xs flex items-center gap-2 transition cursor-pointer ${
+                    activeSectionId === t.id
+                      ? 'text-[var(--accent)] font-bold bg-[var(--panel2)]'
+                      : 'text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel2)]'
+                  }`}
+                >
+                  <span className="mono text-[10px] opacity-70 shrink-0">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <span className="truncate">{t.title}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* 2-Column Layout: Sticky TOC + All Sections */}
-        <div className="grid lg:grid-cols-[220px_1fr] gap-10 lg:gap-14 mt-12 items-start">
-          {/* Table of Contents */}
+        <div className="grid lg:grid-cols-[220px_1fr] gap-8 lg:gap-14 mt-8 lg:mt-12 items-start">
+          {/* Table of Contents (Desktop) */}
           <aside className="hidden lg:block sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-3 pb-8">
             <div className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-bold mb-3 mono">
               Table of Contents

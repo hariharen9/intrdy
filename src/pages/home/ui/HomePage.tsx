@@ -40,22 +40,22 @@ export function HomePage() {
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] transition-colors duration-200">
       {/* Top Navigation */}
       <header className="panel border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-[var(--panel)]/95 shadow-xs">
-        <div className="flex items-center justify-between px-5 sm:px-8 py-3.5 max-w-[1280px] mx-auto w-full">
+        <div className="flex items-center justify-between px-3.5 sm:px-8 py-3 max-w-[1280px] mx-auto w-full">
           <Link to="/" className="flex items-center gap-2 select-none group">
-            <span className="mono font-bold tracking-tight text-lg text-[var(--text)]">
+            <span className="mono font-bold tracking-tight text-base sm:text-lg text-[var(--text)]">
               INT<span className="accent-text">RDY</span>
             </span>
-            <span className="text-[11px] mono px-2 py-0.5 rounded-full border border-[var(--border)] text-[var(--muted)] bg-[var(--panel2)]">
+            <span className="text-[10px] sm:text-[11px] mono px-2 py-0.5 rounded-full border border-[var(--border)] text-[var(--muted)] bg-[var(--panel2)]">
               v1.0
             </span>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <Link
               to="/docker"
-              className="text-xs mono font-semibold px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+              className="text-xs mono font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
-              🐳 Docker Guide
+              🐳 Docker Track
             </Link>
             <ThemeToggle />
           </div>
@@ -63,23 +63,23 @@ export function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <main className="flex-1 max-w-[1280px] mx-auto w-full px-5 sm:px-8 py-12 md:py-16">
+      <main className="flex-1 max-w-[1280px] mx-auto w-full px-3.5 sm:px-8 py-8 sm:py-12 md:py-16">
         <div className="max-w-3xl">
-          <div className="mono text-xs font-bold text-[var(--accent)] uppercase tracking-widest mb-3">
+          <div className="mono text-[11px] sm:text-xs font-bold text-[var(--accent)] uppercase tracking-widest mb-2.5">
             Zero to Hero Curriculum & Interview Prep
           </div>
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.08] text-[var(--text)] mb-5">
+          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] text-[var(--text)] mb-4 sm:mb-5">
             Master production systems from first principles.
           </h1>
-          <p className="text-base sm:text-lg text-[var(--muted)] leading-relaxed mb-10">
+          <p className="text-[15px] sm:text-lg text-[var(--muted)] leading-relaxed mb-8 sm:mb-10">
             Interactive, deep technical whitepaper guides built to take you from curious to senior interview-ready.
             Featuring visual memory stacks, execution timelines, troubleshooting decision trees, and curated Q&A banks.
           </p>
         </div>
 
         {/* Courses Grid */}
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-5">
+        <div className="mt-6 sm:mt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-4 sm:mb-5">
             <h2 className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold mono">
               Available & Upcoming Tracks
             </h2>
@@ -88,27 +88,27 @@ export function HomePage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {/* Active Track: Docker */}
-            <div className="panel rounded-2xl border-2 border-[var(--accent)]/50 bg-[var(--panel)] p-6 sm:p-7 shadow-lg flex flex-col justify-between relative overflow-hidden group hover:border-[var(--accent)] transition-all">
+            <div className="panel rounded-2xl border-2 border-[var(--accent)]/50 bg-[var(--panel)] p-5 sm:p-7 shadow-lg flex flex-col justify-between relative overflow-hidden group hover:border-[var(--accent)] transition-all">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)]/5 rounded-full blur-2xl pointer-events-none" />
 
               <div>
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl sm:text-4xl p-2.5 rounded-xl bg-[var(--panel2)] border border-[var(--border)]">
+                    <span className="text-2xl sm:text-4xl p-2 sm:p-2.5 rounded-xl bg-[var(--panel2)] border border-[var(--border)] shrink-0">
                       {dockerCourse.meta.icon}
                     </span>
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="badge mono text-[11px] font-semibold px-2 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] bg-teal-950/20">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        <span className="badge mono text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] bg-teal-950/20">
                           Ready to Learn
                         </span>
-                        <span className="text-xs mono text-[var(--muted)]">
+                        <span className="text-[11px] sm:text-xs mono text-[var(--muted)]">
                           17 Modules + 23 Scenarios
                         </span>
                       </div>
-                      <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-[var(--text)] mt-1">
+                      <h3 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-[var(--text)] mt-1">
                         {dockerCourse.meta.title}
                       </h3>
                     </div>
