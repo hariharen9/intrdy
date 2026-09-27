@@ -4,6 +4,7 @@ import { k8sCourse } from '@/entities/k8s'
 import { jenkinsCourse } from '@/entities/jenkins'
 import { gitCourse } from '@/entities/git'
 import { ansibleCourse } from '@/entities/ansible'
+import { artifactoryCourse } from '@/entities/artifactory'
 import { useProgress } from '@/features/progress-tracker'
 import { ThemeToggle } from '@/features/theme-toggle'
 
@@ -13,6 +14,7 @@ export function HomePage() {
   const jenkins = useProgress(jenkinsCourse.meta.storageKey, jenkinsCourse.topics)
   const git = useProgress(gitCourse.meta.storageKey, gitCourse.topics)
   const ansible = useProgress(ansibleCourse.meta.storageKey, ansibleCourse.topics)
+  const artifactory = useProgress(artifactoryCourse.meta.storageKey, artifactoryCourse.topics)
 
   const upcomingCourses = [
     {
@@ -64,6 +66,12 @@ export function HomePage() {
       href: '/ansible',
       label: '24 Modules + 20 Q&As',
     },
+    {
+      course: artifactoryCourse,
+      progress: artifactory,
+      href: '/artifactory',
+      label: '27 Modules + 25 Q&As',
+    },
   ]
 
   return (
@@ -111,6 +119,12 @@ export function HomePage() {
               className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               ⚡ Ansible
+            </Link>
+            <Link
+              to="/artifactory"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+            >
+              📦 Artifactory
             </Link>
             <ThemeToggle />
           </div>

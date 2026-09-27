@@ -5,6 +5,7 @@ export const ROUTES = {
   jenkins: '/jenkins',
   git: '/git',
   ansible: '/ansible',
+  artifactory: '/artifactory',
   notFound: '*',
 } as const
 
