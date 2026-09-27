@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
-import { AnsiblePage, ArtifactoryPage, DockerPage, GitPage, HomePage, JenkinsPage, K8sPage, NotFoundPage } from './lazy-pages'
+import { AnsiblePage, ArtifactoryPage, DockerPage, GitPage, HomePage, JenkinsPage, K8sPage, NotFoundPage, TerraformPage } from './lazy-pages'
 import { ROUTES } from './paths'
 import { RouteErrorFallback } from './route-error-fallback'
 import { withPageBoundary } from './with-page-boundary'
@@ -38,6 +38,11 @@ export const routes: RouteObject[] = [
   {
     path: ROUTES.artifactory,
     element: withPageBoundary(<ArtifactoryPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.terraform,
+    element: withPageBoundary(<TerraformPage />),
     errorElement: <RouteErrorFallback />,
   },
   {

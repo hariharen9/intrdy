@@ -6,6 +6,7 @@ export const ROUTES = {
   git: '/git',
   ansible: '/ansible',
   artifactory: '/artifactory',
+  terraform: '/terraform',
   notFound: '*',
 } as const
 

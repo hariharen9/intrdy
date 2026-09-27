@@ -28,6 +28,10 @@ export const ArtifactoryPage = lazy(() =>
   import('@/pages/artifactory').then((page) => ({ default: page.ArtifactoryPage })),
 )
 
+export const TerraformPage = lazy(() =>
+  import('@/pages/terraform').then((page) => ({ default: page.TerraformPage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )
