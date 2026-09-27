@@ -36,6 +36,27 @@ export const DockerCrashPage = lazy(() =>
   import('@/pages/docker-crash').then((page) => ({ default: page.DockerCrashPage })),
 )
 
+export const K8sCrashPage = lazy(() =>
+  import('@/pages/k8s-crash').then((page) => ({ default: page.K8sCrashPage })),
+)
+
+export const JenkinsCrashPage = lazy(() =>
+  import('@/pages/jenkins-crash').then((page) => ({ default: page.JenkinsCrashPage })),
+)
+
+export const GitCrashPage = lazy(() =>
+  import('@/pages/git-crash').then((page) => ({ default: page.GitCrashPage })),
+)
+
+export const AnsibleCrashPage = lazy(() =>
+  import('@/pages/ansible-crash').then((page) => ({ default: page.AnsibleCrashPage })),
+)
+
+export const ArtifactoryCrashPage = lazy(() =>
+  import('@/pages/artifactory-crash').then((page) => ({ default: page.ArtifactoryCrashPage })),
+)
+
 export const NotFoundPage = lazy(() =>
   import('@/pages/not-found').then((page) => ({ default: page.NotFoundPage })),
 )
+

@@ -7,6 +7,11 @@ import { ansibleCourse } from '@/entities/ansible'
 import { artifactoryCourse } from '@/entities/artifactory'
 import { terraformCourse } from '@/entities/terraform'
 import { dockerCrashCourse } from '@/entities/docker-crash'
+import { k8sCrashCourse } from '@/entities/k8s-crash'
+import { jenkinsCrashCourse } from '@/entities/jenkins-crash'
+import { gitCrashCourse } from '@/entities/git-crash'
+import { ansibleCrashCourse } from '@/entities/ansible-crash'
+import { artifactoryCrashCourse } from '@/entities/artifactory-crash'
 import { useProgress } from '@/features/progress-tracker'
 import { ThemeToggle } from '@/features/theme-toggle'
 
@@ -19,6 +24,11 @@ export function HomePage() {
   const artifactory = useProgress(artifactoryCourse.meta.storageKey, artifactoryCourse.topics)
   const terraform = useProgress(terraformCourse.meta.storageKey, terraformCourse.topics)
   const dockerCrash = useProgress(dockerCrashCourse.meta.storageKey, dockerCrashCourse.topics)
+  const k8sCrash = useProgress(k8sCrashCourse.meta.storageKey, k8sCrashCourse.topics)
+  const jenkinsCrash = useProgress(jenkinsCrashCourse.meta.storageKey, jenkinsCrashCourse.topics)
+  const gitCrash = useProgress(gitCrashCourse.meta.storageKey, gitCrashCourse.topics)
+  const ansibleCrash = useProgress(ansibleCrashCourse.meta.storageKey, ansibleCrashCourse.topics)
+  const artifactoryCrash = useProgress(artifactoryCrashCourse.meta.storageKey, artifactoryCrashCourse.topics)
 
   const upcomingCourses = [
     {
@@ -92,6 +102,46 @@ export function HomePage() {
       label: '11 Focused Modules · ~40 min',
       badge: '⚡ Fast-Track Crash Course',
       highlight: 'Ultra-clear mental models: container vs VM, core commands, multi-stage builds, port mapping, named volumes & Docker Compose.',
+    },
+    {
+      course: k8sCrashCourse,
+      progress: k8sCrash,
+      href: '/k8s-crash',
+      label: '11 Focused Modules · ~40 min',
+      badge: '⚡ Fast-Track Crash Course',
+      highlight: 'High-yield orchestration: Control Plane vs Nodes, Pods, Deployments & Rollouts, Services, Ingress, ConfigMaps/Secrets, PVCs & kubectl triage.',
+    },
+    {
+      course: jenkinsCrashCourse,
+      progress: jenkinsCrash,
+      href: '/jenkins-crash',
+      label: '11 Focused Modules · ~35 min',
+      badge: '⚡ Fast-Track Crash Course',
+      highlight: 'Declarative pipelines made easy: Master Jenkinsfile syntax, credentials masking, Docker execution agents, parallel stages & post actions.',
+    },
+    {
+      course: gitCrashCourse,
+      progress: gitCrash,
+      href: '/git-crash',
+      label: '11 Focused Modules · ~35 min',
+      badge: '⚡ Fast-Track Crash Course',
+      highlight: 'Zero confusion Git: 3-tree mental model, atomic patch staging, merge vs rebase, undoing mistakes with restore/reset/revert & reflog rescue.',
+    },
+    {
+      course: ansibleCrashCourse,
+      progress: ansibleCrash,
+      href: '/ansible-crash',
+      label: '11 Focused Modules · ~40 min',
+      badge: '⚡ Fast-Track Crash Course',
+      highlight: 'Agentless push automation: Inventories, ad-hoc commands, YAML playbooks, core modules, Jinja2 templates, handlers & Ansible Vault.',
+    },
+    {
+      course: artifactoryCrashCourse,
+      progress: artifactoryCrash,
+      href: '/artifactory-crash',
+      label: '9 Focused Modules · ~30 min',
+      badge: '⚡ Fast-Track Crash Course',
+      highlight: 'Universal binary management: 4 repo types (local/remote/virtual/federated), Docker & Helm registries, immutable build promotion & Xray scanning.',
     },
     {
       course: terraformCourse,

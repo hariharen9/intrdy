@@ -1,5 +1,21 @@
 import type { RouteObject } from 'react-router-dom'
-import { AnsiblePage, ArtifactoryPage, DockerCrashPage, DockerPage, GitPage, HomePage, JenkinsPage, K8sPage, NotFoundPage, TerraformPage } from './lazy-pages'
+import {
+  AnsibleCrashPage,
+  AnsiblePage,
+  ArtifactoryCrashPage,
+  ArtifactoryPage,
+  DockerCrashPage,
+  DockerPage,
+  GitCrashPage,
+  GitPage,
+  HomePage,
+  JenkinsCrashPage,
+  JenkinsPage,
+  K8sCrashPage,
+  K8sPage,
+  NotFoundPage,
+  TerraformPage,
+} from './lazy-pages'
 import { ROUTES } from './paths'
 import { RouteErrorFallback } from './route-error-fallback'
 import { withPageBoundary } from './with-page-boundary'
@@ -48,6 +64,31 @@ export const routes: RouteObject[] = [
   {
     path: ROUTES.dockerCrash,
     element: withPageBoundary(<DockerCrashPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.k8sCrash,
+    element: withPageBoundary(<K8sCrashPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.jenkinsCrash,
+    element: withPageBoundary(<JenkinsCrashPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.gitCrash,
+    element: withPageBoundary(<GitCrashPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.ansibleCrash,
+    element: withPageBoundary(<AnsibleCrashPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.artifactoryCrash,
+    element: withPageBoundary(<ArtifactoryCrashPage />),
     errorElement: <RouteErrorFallback />,
   },
   {
