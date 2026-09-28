@@ -15,7 +15,7 @@ export function DebugWizard({ tree = DOCKER_WIZARD_TREE }: DebugWizardProps) {
   const node: WizardNode = tree[currentStep] || tree.start || { q: '', options: [] }
 
   return (
-    <div className="panel2 rounded-xl border border-[var(--border)] p-4 sm:p-5 md:p-6 my-5 sm:my-6 max-w-2xl shadow-sm transition-all">
+    <div className="panel2 rounded-xl border border-[var(--border)] p-4 sm:p-5 md:p-6 my-5 sm:my-6 w-full max-w-4xl min-w-0 shadow-sm transition-all">
       {node.options && node.options.length > 0 ? (
         <div className="fade-in">
           <div className="mono text-[11px] font-bold uppercase tracking-wider text-[var(--accent)] mb-2">

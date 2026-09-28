@@ -36,7 +36,7 @@ export function CourseHeader({
 
   return (
     <header className="panel border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-[var(--panel)]/95 shadow-xs w-full max-w-full">
-      <div className="flex items-center justify-between gap-1.5 sm:gap-3 px-2.5 sm:px-5 py-2 sm:py-3 max-w-[1440px] mx-auto w-full min-w-0">
+      <div className="flex items-center justify-between gap-1.5 sm:gap-3 px-3.5 sm:px-6 md:px-10 lg:px-12 py-2 sm:py-3 w-full min-w-0">
         {/* Left: Mobile Menu Toggle + Logo + Home Link */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 min-w-0">
           {viewMode === 'app' && onToggleMobileMenu && (

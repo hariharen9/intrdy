@@ -186,7 +186,7 @@ export function CourseView({
   }
 
   return (
-    <div className="flex flex-1 max-w-[1440px] mx-auto w-full h-full min-h-0 overflow-hidden">
+    <div className="flex flex-1 w-full h-full min-h-0 overflow-hidden">
       {/* Desktop Sidebar: Independent scroll container that stays completely fixed when content scrolls */}
       <aside className="hidden md:block w-72 lg:w-80 h-full overflow-y-auto shrink-0 border-r border-[var(--border)]">
         <nav className="py-3 pr-1">{renderNavItems()}</nav>
@@ -226,11 +226,11 @@ export function CourseView({
       {/* Main Content Area: Independent scroll container */}
       <main
         ref={mainContentRef}
-        className="flex-1 h-full overflow-y-auto min-w-0 px-3.5 sm:px-8 lg:px-12 py-6 sm:py-8"
+        className="flex-1 h-full overflow-y-auto min-w-0 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-6 sm:py-10"
       >
-        <div className="max-w-4xl mx-auto w-full fade-in">
+        <div className="max-w-5xl xl:max-w-6xl mx-auto w-full min-w-0 fade-in">
           {activeTopic.id === 'interview-fund' ? (
-            <div>
+            <div className="w-full min-w-0 max-w-full">
               <QAAccordion
                 items={course.qaFundamentals}
                 title="Interview Q&A — Fundamentals"
@@ -238,7 +238,7 @@ export function CourseView({
               />
             </div>
           ) : activeTopic.id === 'interview-adv' ? (
-            <div>
+            <div className="w-full min-w-0 max-w-full">
               <QAAccordion
                 items={course.qaAdvanced}
                 title="Interview Q&A — Intermediate & Advanced"
@@ -246,7 +246,7 @@ export function CourseView({
               />
             </div>
           ) : (
-            <div>
+            <div className="w-full min-w-0 max-w-full">
               {/* Level Badge */}
               {activeTopic.level && (
                 <div className="flex flex-wrap items-center gap-2 mb-3">

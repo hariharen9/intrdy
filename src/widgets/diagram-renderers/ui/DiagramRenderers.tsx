@@ -70,13 +70,13 @@ export function FlowBlock({
         : 'text-[var(--accent)]'
 
   return (
-    <div className="my-5 w-full max-w-full min-w-0">
+    <div className="my-5 w-full max-w-full min-w-0 overflow-hidden">
       {heading && (
         <div className={`text-xs font-bold mono mb-2.5 ${headingColor}`}>
           {renderInline(heading)}
         </div>
       )}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 pt-1 scrollbar-thin">
+      <div className="w-full max-w-full min-w-0 overflow-x-auto pb-2.5 pt-1 scrollbar-thin flex items-center gap-1.5 touch-pan-x">
         {steps.map((s, i) => (
           <div key={i} className="flex items-center gap-1.5 shrink-0">
             {s.group ? (
@@ -103,7 +103,7 @@ export function FlowBlock({
         ))}
       </div>
       {note && (
-        <p className="text-xs mt-2 text-[var(--muted)] max-w-2xl leading-relaxed">
+        <p className="text-xs mt-2 text-[var(--muted)] leading-relaxed break-words">
           {renderInline(note)}
         </p>
       )}
@@ -165,7 +165,7 @@ export function TopicBodyRenderer({
   wizardTree?: Record<string, WizardNode>
 }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full min-w-0 max-w-full">
       {blocks.map((b, idx) => {
         if (b.t === 'p') {
           if (b.c.startsWith('### ')) {
@@ -173,12 +173,12 @@ export function TopicBodyRenderer({
             const title = lines[0]?.replace('### ', '') ?? ''
             const rest = lines.slice(1).join('\n')
             return (
-              <div key={idx} className="my-5 max-w-3xl">
+              <div key={idx} className="my-5 w-full min-w-0">
                 <h3 className="font-heading text-xl sm:text-2xl font-semibold text-[var(--text)] tracking-tight mb-2">
                   {renderInline(title)}
                 </h3>
                 {rest && (
-                  <p className="leading-relaxed text-[15px] sm:text-[16px] text-[var(--text)] opacity-95">
+                  <p className="leading-relaxed text-[15px] sm:text-[16px] text-[var(--text)] opacity-95 break-words">
                     {renderInline(rest)}
                   </p>
                 )}
@@ -189,7 +189,7 @@ export function TopicBodyRenderer({
           return (
             <p
               key={idx}
-              className="leading-relaxed text-[15px] sm:text-[16px] text-[var(--text)] opacity-95 max-w-3xl whitespace-pre-line"
+              className="leading-relaxed text-[15px] sm:text-[16px] text-[var(--text)] opacity-95 whitespace-pre-line break-words w-full min-w-0"
             >
               {renderInline(b.c)}
             </p>
@@ -200,7 +200,7 @@ export function TopicBodyRenderer({
           return (
             <ul
               key={idx}
-              className="list-disc pl-5 my-3 space-y-2 text-[14px] sm:text-[15px] text-[var(--muted)] max-w-3xl leading-relaxed"
+              className="list-disc pl-5 my-3 space-y-2 text-[14px] sm:text-[15px] text-[var(--muted)] leading-relaxed break-words w-full min-w-0"
             >
               {b.c.map((item, i) => (
                 <li key={i} className="leading-relaxed">
@@ -215,7 +215,7 @@ export function TopicBodyRenderer({
           return (
             <ol
               key={idx}
-              className="list-decimal pl-5 my-3 space-y-2 text-[14px] sm:text-[15px] text-[var(--muted)] max-w-3xl leading-relaxed"
+              className="list-decimal pl-5 my-3 space-y-2 text-[14px] sm:text-[15px] text-[var(--muted)] leading-relaxed break-words w-full min-w-0"
             >
               {b.c.map((item, i) => (
                 <li key={i} className="leading-relaxed">
@@ -235,7 +235,7 @@ export function TopicBodyRenderer({
           return (
             <div
               key={idx}
-              className={`my-4 rounded-xl px-4.5 py-3.5 border-l-4 max-w-3xl ${
+              className={`my-4 rounded-xl px-4 sm:px-5 py-3.5 sm:py-4 border-l-4 w-full min-w-0 break-words ${
                 isWarn
                   ? 'bg-amber-950/20 border-l-[var(--danger)] text-amber-200'
                   : 'bg-teal-950/20 border-l-[var(--accent)] text-teal-200'
@@ -260,7 +260,7 @@ export function TopicBodyRenderer({
           return (
             <div
               key={idx}
-              className="my-4 rounded-xl px-4.5 py-3.5 border-l-4 border-l-[var(--accent2)] bg-amber-950/15 max-w-3xl"
+              className="my-4 rounded-xl px-4 sm:px-5 py-3.5 sm:py-4 border-l-4 border-l-[var(--accent2)] bg-amber-950/15 w-full min-w-0 break-words"
             >
               <span className="mono text-[11px] font-bold tracking-wider text-[var(--accent2)]">
                 📦 ANALOGY
@@ -277,7 +277,7 @@ export function TopicBodyRenderer({
           return (
             <div
               key={idx}
-              className="panel rounded-xl border border-[var(--border)] p-4.5 my-4 max-w-2xl"
+              className="panel rounded-xl border border-[var(--border)] p-4 sm:p-5 my-4 w-full max-w-3xl min-w-0"
             >
               {b.title && (
                 <p className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold mb-3">
@@ -314,22 +314,22 @@ export function TopicBodyRenderer({
 
         if (b.t === 'cards') {
           return (
-            <div key={idx} className="my-5">
+            <div key={idx} className="my-5 w-full min-w-0">
               {b.title && (
                 <p className="text-sm font-semibold mb-3 text-[var(--text)]">
                   {renderInline(b.title)}
                 </p>
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 w-full min-w-0">
                 {b.items.map((it, i) => (
                   <div
                     key={i}
-                    className="panel2 rounded-xl p-4 border border-[var(--border)] shadow-sm"
+                    className="panel2 rounded-xl p-4 sm:p-4.5 border border-[var(--border)] shadow-sm min-w-0"
                   >
-                    <p className="font-bold text-sm mb-1 text-[var(--accent)]">
+                    <p className="font-bold text-sm mb-1 text-[var(--accent)] break-words">
                       {renderInline(it.h)}
                     </p>
-                    <p className="text-sm leading-relaxed text-[var(--muted)]">
+                    <p className="text-sm leading-relaxed text-[var(--muted)] break-words">
                       {renderInline(it.c)}
                     </p>
                     {it.chips && it.chips.length > 0 && (
@@ -366,7 +366,7 @@ export function TopicBodyRenderer({
 
         if (b.t === 'stack') {
           return (
-            <div key={idx} className="my-5 max-w-md">
+            <div key={idx} className="my-5 w-full max-w-lg min-w-0">
               <StackColumn title={b.title} layers={b.layers} />
             </div>
           )
@@ -376,9 +376,9 @@ export function TopicBodyRenderer({
           return (
             <div
               key={idx}
-              className="panel rounded-xl border border-[var(--border)] p-5 my-5 shadow-sm"
+              className="panel rounded-xl border border-[var(--border)] p-4 sm:p-6 my-5 shadow-sm w-full max-w-full min-w-0 overflow-hidden"
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 w-full min-w-0">
                 <StackColumn
                   title={b.left.title}
                   layers={b.left.layers}
@@ -396,7 +396,7 @@ export function TopicBodyRenderer({
           return (
             <div
               key={idx}
-              className="panel rounded-xl border border-[var(--border)] p-5 my-5 max-w-2xl"
+              className="panel rounded-xl border border-[var(--border)] p-4 sm:p-6 my-5 w-full max-w-4xl min-w-0"
             >
               <div className="relative pl-6 space-y-3.5">
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[var(--border)]" />
@@ -422,7 +422,7 @@ export function TopicBodyRenderer({
                       <div className="text-[11px] mono text-[var(--muted)]">
                         {renderInline(e.time)}
                       </div>
-                      <div className={`text-sm font-medium leading-snug ${statusColor}`}>
+                      <div className={`text-sm font-medium leading-snug break-words ${statusColor}`}>
                         {renderInline(e.label)}
                       </div>
                     </div>
@@ -613,7 +613,7 @@ export function InteractiveQuizBlock({ questions }: { questions: QuizQuestion[] 
   const isCorrect = selected === q.correct
 
   return (
-    <div className="fade-in my-6 max-w-2xl">
+    <div className="fade-in my-6 w-full max-w-3xl min-w-0">
       <div className="flex items-center justify-between mb-3 text-xs">
         <span className="pill">
           🎯 Question {idx + 1} / {questions.length}
@@ -626,13 +626,13 @@ export function InteractiveQuizBlock({ questions }: { questions: QuizQuestion[] 
           style={{ width: `${(idx / questions.length) * 100}%` }}
         />
       </div>
-      <h3 className="font-heading font-semibold text-lg sm:text-xl leading-snug mb-5 text-[var(--text)]">
+      <h3 className="font-heading font-semibold text-lg sm:text-xl leading-snug mb-5 text-[var(--text)] break-words">
         {q.q}
       </h3>
       <div className="flex flex-col gap-2.5">
         {q.options.map((opt, i) => {
           let btnClass =
-            'quiz-opt text-left px-4 py-3 rounded-lg text-sm flex items-start gap-3 text-[var(--text)] cursor-pointer'
+            'quiz-opt text-left px-4 py-3 rounded-lg text-sm flex items-start gap-3 text-[var(--text)] cursor-pointer min-w-0 break-words'
           if (answered) {
             if (i === q.correct) btnClass += ' correct'
             else if (i === selected) btnClass += ' wrong'
@@ -642,7 +642,7 @@ export function InteractiveQuizBlock({ questions }: { questions: QuizQuestion[] 
               <span className="font-mono font-semibold text-[var(--muted)] shrink-0">
                 {letters[i]}
               </span>
-              <span>{opt}</span>
+              <span className="break-words min-w-0">{opt}</span>
             </button>
           )
         })}
@@ -657,7 +657,7 @@ export function InteractiveQuizBlock({ questions }: { questions: QuizQuestion[] 
           </div>
           <button
             onClick={handleNext}
-            className="mt-3 px-5 py-2.5 rounded-lg font-semibold text-sm bg-[var(--accent)] text-slate-950 hover:opacity-90 transition-opacity"
+            className="mt-3 px-5 py-2.5 rounded-lg font-semibold text-sm bg-[var(--accent)] text-slate-950 hover:opacity-90 transition-opacity cursor-pointer"
           >
             {idx + 1 < questions.length ? 'Next question →' : 'See results →'}
           </button>
@@ -685,19 +685,19 @@ export function InteractiveCheatsheetBlock({ items }: { items: CheatsheetItem[] 
   }
 
   return (
-    <div className="fade-in my-6 max-w-3xl">
-      <div className="flex items-center justify-between mb-4">
+    <div className="fade-in my-6 w-full min-w-0">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <p className="text-xs text-[var(--muted)]">Tap any term to reveal the key definition.</p>
         <div className="flex gap-2">
           <button
             onClick={expandAll}
-            className="text-xs px-2.5 py-1 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+            className="text-xs px-2.5 py-1 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer"
           >
             Expand all
           </button>
           <button
             onClick={collapseAll}
-            className="text-xs px-2.5 py-1 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+            className="text-xs px-2.5 py-1 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer"
           >
             Collapse all
           </button>
@@ -709,19 +709,19 @@ export function InteractiveCheatsheetBlock({ items }: { items: CheatsheetItem[] 
           return (
             <div
               key={i}
-              className="rounded-lg border border-[var(--border)] bg-[var(--panel)] overflow-hidden transition-colors"
+              className="rounded-lg border border-[var(--border)] bg-[var(--panel)] overflow-hidden transition-colors min-w-0"
             >
               <button
                 onClick={() => toggle(i)}
-                className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-[var(--panel2)]/40 transition-colors"
+                className="w-full text-left px-4 py-3 flex items-center justify-between gap-3 hover:bg-[var(--panel2)]/40 transition-colors cursor-pointer"
               >
-                <span className="font-mono text-sm font-medium text-[var(--text)]">{it.term}</span>
+                <span className="font-mono text-sm font-medium text-[var(--text)] break-words min-w-0">{it.term}</span>
                 <span className="text-sm font-mono text-[var(--muted)] shrink-0">
                   {isOpen ? '−' : '+'}
                 </span>
               </button>
               {isOpen && (
-                <div className="px-4 pb-3.5 pt-1 text-sm leading-relaxed text-[var(--muted)] border-t border-[var(--border)]/50 bg-[var(--panel2)]/20 fade-in">
+                <div className="px-4 pb-3.5 pt-1 text-sm leading-relaxed text-[var(--muted)] border-t border-[var(--border)]/50 bg-[var(--panel2)]/20 fade-in break-words">
                   <p>{it.def}</p>
                 </div>
               )}
@@ -735,21 +735,21 @@ export function InteractiveCheatsheetBlock({ items }: { items: CheatsheetItem[] 
 
 export function InteractiveTroubleshootBlock({ items }: { items: TroubleshootItem[] }) {
   return (
-    <div className="fade-in my-6 max-w-3xl flex flex-col gap-4">
+    <div className="fade-in my-6 w-full min-w-0 flex flex-col gap-4">
       {items.map((it, i) => (
         <div
           key={i}
-          className="p-4 sm:p-5 rounded-xl border border-[var(--border)] bg-[var(--panel)] shadow-sm"
+          className="p-4 sm:p-5 rounded-xl border border-[var(--border)] bg-[var(--panel)] shadow-sm min-w-0"
         >
-          <div className="text-sm font-semibold mb-2 text-[var(--text)] flex items-start gap-2">
-            <span>🩺</span>
+          <div className="text-sm font-semibold mb-2 text-[var(--text)] flex items-start gap-2 break-words">
+            <span className="shrink-0">🩺</span>
             <span>{it.scenario}</span>
           </div>
-          <div className="text-sm mb-2 pl-6">
+          <div className="text-sm mb-2 pl-6 break-words">
             <span className="text-[var(--accent2)] font-semibold">Likely cause: </span>
             <span className="text-[var(--muted)]">{it.diagnosis}</span>
           </div>
-          <div className="text-sm pl-6">
+          <div className="text-sm pl-6 break-words">
             <span className="text-[var(--accent)] font-semibold">Fix: </span>
             <span className="text-[var(--muted)]">{it.fix}</span>
           </div>
