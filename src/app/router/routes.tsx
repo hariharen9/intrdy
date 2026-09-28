@@ -15,6 +15,7 @@ import {
   K8sPage,
   NotFoundPage,
   TerraformPage,
+  AiPage,
 } from './lazy-pages'
 import { ROUTES } from './paths'
 import { RouteErrorFallback } from './route-error-fallback'
@@ -59,6 +60,11 @@ export const routes: RouteObject[] = [
   {
     path: ROUTES.terraform,
     element: withPageBoundary(<TerraformPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.ai,
+    element: withPageBoundary(<AiPage />),
     errorElement: <RouteErrorFallback />,
   },
   {

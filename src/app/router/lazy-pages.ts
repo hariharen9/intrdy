@@ -32,6 +32,10 @@ export const TerraformPage = lazy(() =>
   import('@/pages/terraform').then((page) => ({ default: page.TerraformPage })),
 )
 
+export const AiPage = lazy(() =>
+  import('@/pages/ai').then((page) => ({ default: page.AiPage })),
+)
+
 export const DockerCrashPage = lazy(() =>
   import('@/pages/docker-crash').then((page) => ({ default: page.DockerCrashPage })),
 )

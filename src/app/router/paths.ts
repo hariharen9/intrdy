@@ -7,6 +7,7 @@ export const ROUTES = {
   ansible: '/ansible',
   artifactory: '/artifactory',
   terraform: '/terraform',
+  ai: '/ai',
   dockerCrash: '/docker-crash',
   k8sCrash: '/k8s-crash',
   jenkinsCrash: '/jenkins-crash',

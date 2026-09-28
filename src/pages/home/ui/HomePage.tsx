@@ -6,6 +6,7 @@ import { gitCourse } from '@/entities/git'
 import { ansibleCourse } from '@/entities/ansible'
 import { artifactoryCourse } from '@/entities/artifactory'
 import { terraformCourse } from '@/entities/terraform'
+import { aiCourse } from '@/entities/ai'
 import { dockerCrashCourse } from '@/entities/docker-crash'
 import { k8sCrashCourse } from '@/entities/k8s-crash'
 import { jenkinsCrashCourse } from '@/entities/jenkins-crash'
@@ -23,6 +24,7 @@ export function HomePage() {
   const ansible = useProgress(ansibleCourse.meta.storageKey, ansibleCourse.topics)
   const artifactory = useProgress(artifactoryCourse.meta.storageKey, artifactoryCourse.topics)
   const terraform = useProgress(terraformCourse.meta.storageKey, terraformCourse.topics)
+  const ai = useProgress(aiCourse.meta.storageKey, aiCourse.topics)
   const dockerCrash = useProgress(dockerCrashCourse.meta.storageKey, dockerCrashCourse.topics)
   const k8sCrash = useProgress(k8sCrashCourse.meta.storageKey, k8sCrashCourse.topics)
   const jenkinsCrash = useProgress(jenkinsCrashCourse.meta.storageKey, jenkinsCrashCourse.topics)
@@ -90,6 +92,13 @@ export function HomePage() {
       progress: artifactory,
       href: '/artifactory',
       label: '27 Modules + 25 Q&As',
+      badge: 'Deep Dive Track',
+    },
+    {
+      course: aiCourse,
+      progress: ai,
+      href: '/ai',
+      label: '20 Modules + 20 Scenarios',
       badge: 'Deep Dive Track',
     },
   ]
@@ -212,6 +221,12 @@ export function HomePage() {
               className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
               🌍 Terraform
+            </Link>
+            <Link
+              to="/ai"
+              className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
+            >
+              🤖 AI & LLMs
             </Link>
             <ThemeToggle />
           </div>
