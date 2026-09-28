@@ -1,55 +1,55 @@
 import type { QAItem } from '@/entities/topic'
 
-export const terraformQAFundamentals: QAItem[] = [
+export const TERRAFORM_QA_FUND: QAItem[] = [
   [
-    'What is Infrastructure as Code (IaC) and what primary problem does Terraform solve?',
-    'Infrastructure as Code (IaC) is the practice of managing and provisioning computing infrastructure (servers, networks, databases, buckets) through machine-readable definition files rather than manual point-and-click configuration in cloud web consoles (ClickOps). Terraform allows you to define desired cloud state declaratively, test changes safely via `plan`, version-control your infrastructure in Git, and eliminate manual drift.',
+    'What is Infrastructure as Code (IaC), and what is the difference between Declarative and Imperative IaC?',
+    'Infrastructure as Code (IaC) is the practice of managing and provisioning computer data centers and cloud resources through machine-readable definition files, rather than physical hardware configuration or interactive configuration tools.\n• Imperative IaC (e.g., AWS CLI, Bash, Python boto3, Ansible tasks): You specify the explicit sequence of steps to execute. If a step fails halfway, the system is left in an unknown state.\n• Declarative IaC (e.g., Terraform, OpenTofu, CloudFormation, Kubernetes manifests): You specify the DESIRED END-STATE. The engine compares current state against desired state and computes the minimal set of create/update/delete API calls to reach that state idempotently.',
   ],
   [
-    'Explain the 4 core lifecycle commands in Terraform: init, plan, apply, and destroy.',
-    '1. `terraform init`: Initializes the working directory, downloads required provider plugins (e.g. AWS, Azure), and configures the backend.\n2. `terraform plan`: Reads current cloud state, compares it with your code, and creates an execution plan showing what will be created (+), modified (~), or destroyed (-).\n3. `terraform apply`: Executes the proposed actions by calling cloud APIs to achieve the desired state.\n4. `terraform destroy`: Deletes all managed infrastructure resources declared in the configuration.',
+    'Explain the 4 Core Commands in the Terraform Workflow and what happens during each.',
+    '1. terraform init: Initializes working directory, downloads required provider plugins into .terraform/, and prepares the state backend (local or S3/remote).\n2. terraform plan: Performs a dry run. Queries live cloud provider APIs, compares against state and local .tf code, and calculates an execution diff (+ create, ~ update in-place, - destroy, -/+ replace).\n3. terraform apply: Requests user confirmation ("yes") and executes the cloud API calls to match the plan. Updates terraform.tfstate upon completion.\n4. terraform destroy: Deletes all infrastructure tracked in the state file in reverse dependency order.',
   ],
   [
-    'What is the difference between Declarative and Imperative infrastructure management?',
-    '- Declarative (Terraform): You specify the *desired end state* (e.g. "I want 3 EC2 instances in us-east-1"). Terraform automatically calculates what needs to be created or deleted to reach that state.\n- Imperative (Bash / AWS CLI scripts): You specify explicit step-by-step instructions (e.g. "Run aws ec2 run-instances, then wait, then attach volume"). If run twice, imperative scripts often fail or create duplicate resources.',
+    'What is the purpose of the terraform.tfstate file, and why is storing it in Git a critical security risk?',
+    'The state file is a JSON database that maps declarative HCL resource definitions to real-world cloud resource IDs (e.g. mapping aws_instance.web to "i-09f81a8b2") along with resource metadata and dependency tracking.\nStoring it in Git is dangerous because:\n1. Secrets: State files store plaintext values of database passwords, private keys, and sensitive tokens created during provisioning.\n2. Concurrency: Git lacks real-time locking. If two engineers push changes at once, state collisions will corrupt infrastructure.',
   ],
   [
-    'What is the purpose of the `terraform.tfstate` file?',
-    '`terraform.tfstate` is the single source of truth mapping your declared configuration to real-world cloud resource IDs and attributes (e.g. mapping `aws_s3_bucket.my_bucket` to `arn:aws:s3:::my-unique-bucket-1234`). It enables Terraform to calculate diffs, determine resource dependencies, and track metadata.',
+    'What is the difference between Variables, Locals, and Outputs in Terraform?',
+    '• Input Variables (variable "name" {}): Configurable parameters passed into a module or root workspace from external sources (terraform.tfvars, CLI flags, or environment variables). Like function arguments.\n• Local Values (locals {}): Internal computed constants or DRY expressions defined within the module. They cannot be overridden from the outside.\n• Output Values (output "name" {}): Return values exposed after an apply (e.g., public IP, database endpoint) and the primary mechanism for child modules to pass data back to the root module.',
   ],
   [
-    'Why is storing Terraform state in local files dangerous for teams, and how does a Remote Backend solve it?',
-    'Local state files on developer laptops cause severe problems:\n1. Merge conflicts: Two developers applying changes locally will overwrite each other\'s state.\n2. Security risk: State files contain plaintext secrets (database passwords, private keys).\n3. No state locking: Concurrent applies will corrupt the state file.\nRemote backends (e.g. AWS S3 + DynamoDB table, Azure Blob, GCS) store state centrally, encrypt it at rest, and provide distributed state locking during applies.',
+    'What is the difference between count and for_each in Terraform, and why is for_each preferred for resources?',
+    '• count creates resources indexed by integer (e.g., aws_subnet.public[0], aws_subnet.public[1]). If you remove an item from the middle or beginning of the list, every subsequent resource index shifts, causing Terraform to destroy and recreate the remaining resources unnecessarily.\n• for_each operates on a set of strings or a map (e.g., aws_subnet.public["us-east-1a"]). Resources are addressed by distinct, immutable string keys. Adding or removing one item only modifies that specific key without affecting any other resource.',
   ],
   [
-    'What is the difference between Input Variables (`variable`), Local Values (`locals`), and Outputs (`output`)?',
-    '- `variable`: Parameters passed into a configuration or module from outside (CLI, `terraform.tfvars`, or parent module) to make code customizable.\n- `locals`: Internal intermediate helper variables used within a module to avoid repeating complex expressions (DRY principle).\n- `output`: Values returned by a configuration or child module (e.g. public IP, database endpoint, bucket ARN) to be displayed on console or consumed by other modules.',
-  ],
-  [
-    'What is the difference between `count` and `for_each` in resource creation?',
-    '- `count`: Takes an integer (e.g. `count = 3`) and creates resources indexed by integer (e.g. `aws_instance.server[0]`, `[1]`). If you delete an item from the middle of the list, Terraform will destroy and shift subsequent resources.\n- `for_each`: Takes a map or set of strings and creates resources keyed by identifier (e.g. `aws_instance.server["web"]`, `["api"]`). Removing an item deletes only that specific named resource without affecting others.',
-  ],
-  [
-    'What are Data Sources (`data` blocks) and how do they differ from Resources (`resource` blocks)?',
-    '- `resource`: Declares infrastructure that Terraform is responsible for creating, modifying, and destroying.\n- `data`: Read-only queries that fetch information about existing infrastructure created outside the current Terraform workspace (e.g. looking up the latest Ubuntu AMI ID, VPC ID, or existing hosted zone).',
+    'What are Data Sources in Terraform, and how do they differ from Resources?',
+    '• resource blocks define infrastructure that Terraform owns, creates, modifies, and destroys.\n• data source blocks allow Terraform to read and query information about existing cloud infrastructure that was created outside of Terraform or in a different workspace (e.g., querying the default VPC, fetching the latest official Ubuntu AMI ID, or reading an existing DNS hosted zone).',
   ],
 ]
 
-export const terraformQAAdvanced: QAItem[] = [
+export const TERRAFORM_QA_ADV: QAItem[] = [
   [
-    'Explain the difference between Implicit Dependencies and Explicit Dependencies (`depends_on`).',
-    '- Implicit Dependencies: Terraform automatically infers dependencies when one resource references an attribute of another (e.g. `subnet_id = aws_subnet.main.id`). Terraform creates the subnet first automatically.\n- Explicit Dependencies (`depends_on = [aws_iam_role_policy.s3_access]`): Manually specified when a dependency exists at the application/permission level that Terraform cannot detect via attribute references.',
+    'How do you design a production-grade Remote State Backend with S3 and DynamoDB?',
+    'In AWS, enterprise Terraform uses an S3 bucket configured with:\n1. Encryption: SSE-S3 or SSE-KMS for encrypting state data at rest.\n2. Versioning: Enabled to allow rolling back to previous state snapshots in case of accidental corruption.\n3. Public Access Block: Explicitly blocking all public reads/writes.\n4. DynamoDB Table with Partition Key "LockID": Terraform acquires a distributed mutex lock before running plan/apply, preventing concurrent runs from race conditions. The backend block in HCL points to the S3 bucket and DynamoDB table.',
   ],
   [
-    'How do you safely import existing cloud resources into Terraform without deleting them?',
-    '1. Write the resource block in your `.tf` file matching the existing resource configuration.\n2. Run `terraform import <resource_type>.<resource_name> <cloud_id>` (e.g. `terraform import aws_s3_bucket.assets my-bucket-name`).\n3. Run `terraform plan` to verify the state matches your code and no unintended destructive changes are planned.\n(In Terraform 1.5+, you can also use declarative `import { to = ... id = ... }` blocks).',
+    'How do you refactor resources or extract them into child modules without destroying production assets?',
+    'In Terraform 1.1+, you use the declarative `moved {}` block in your code:\n```hcl\nmoved {\n  from = aws_instance.web\n  to   = module.compute.aws_instance.web\n}\n```\nWhen `terraform plan` runs, instead of planning to delete the old instance and create a brand new one, it detects the `moved` block and updates the state pointer in-place with ZERO downtime or resource destruction.',
   ],
   [
-    'What is the purpose of the `lifecycle` block (`prevent_destroy`, `create_before_destroy`, `ignore_changes`)?',
-    '- `prevent_destroy = true`: Rejects any plan that would destroy the resource (safety guard for databases/buckets).\n- `create_before_destroy = true`: Provisions the replacement resource before tearing down the old one (useful for zero-downtime updates).\n- `ignore_changes = [tags, ami]`: Tells Terraform to ignore drift on specific attributes modified by external systems (e.g. autoscaling groups or security taggers).',
+    'How does Terraform 1.5+ Declarative Import work compared to legacy CLI `terraform import`?',
+    '• Legacy CLI (`terraform import aws_s3_bucket.b bucket-name`): Required manually writing empty HCL code first, running the CLI command, and then manually filling in all the missing HCL attributes to match what was imported.\n• Declarative Import (Terraform 1.5+): You declare an `import {}` block in code:\n```hcl\nimport {\n  to = aws_s3_bucket.b\n  id = "my-bucket-name"\n}\n```\nThen run `terraform plan -generate-config-out=generated.tf`. Terraform automatically queries the cloud API and writes the exact HCL configuration file for you!',
   ],
   [
-    'What are Terraform Modules and what is the standard file structure?',
-    'Modules are self-contained packages of Terraform configurations that manage a group of related resources together (e.g. a VPC module creating subnets, route tables, and gateways).\nStandard structure:\n- `main.tf`: Resource definitions\n- `variables.tf`: Input variable declarations\n- `outputs.tf`: Exported attributes\n- `README.md`: Documentation on inputs/outputs.',
+    'What are Terraform Lifecycle Rules (`create_before_destroy`, `prevent_destroy`, `ignore_changes`)?',
+    '• create_before_destroy = true: Reverses the default destroy-then-create replacement order. Essential for zero-downtime rolling updates of web servers, ASGs, or SSL certificates.\n• prevent_destroy = true: Rejects any `terraform destroy` or plan that would destroy the resource. Used to safeguard production databases, primary VPCs, and storage buckets from human error.\n• ignore_changes = [tags, desired_capacity]: Tells Terraform to ignore out-of-band updates made by external tools (e.g., AWS Auto Scaling adjusting instance counts or cost management tools adding billing tags).',
+  ],
+  [
+    'What is Configuration Drift, and how do you detect and remediate it in production?',
+    'Configuration drift occurs when cloud resources are modified outside of Terraform (e.g., an engineer edits a Security Group rule directly in the AWS Console during an outage).\n• Detection: Run `terraform plan -refresh-only`. This queries real cloud APIs and updates the state file with current reality without making infrastructure changes, highlighting the drift.\n• Remediation:\n1. Overwrite drift: Run a normal `terraform apply` to overwrite console changes and restore the code baseline.\n2. Adopt drift: Update your `.tf` code to match the manual changes and run apply.',
+  ],
+  [
+    'How do you automate Terraform securely in CI/CD pipelines using GitHub Actions without long-lived AWS API keys?',
+    'By configuring **OpenID Connect (OIDC)** between GitHub Actions and AWS IAM:\n1. Create an AWS IAM Identity Provider for `token.actions.githubusercontent.com` and an IAM Role with an `sts:AssumeRoleWithWebIdentity` trust policy scoped to your GitHub repo and branch.\n2. In GitHub Actions, use `aws-actions/configure-aws-credentials` with `role-to-assume`. GitHub requests a short-lived JSON Web Token (JWT), which AWS validates to grant temporary 1-hour credentials.\n3. The pipeline runs `terraform plan` on Pull Requests (posting plan summaries as PR comments) and runs `terraform apply` only when merged to the `main` branch.',
   ],
 ]

@@ -104,6 +104,13 @@ export function HomePage() {
       badge: 'Deep Dive Track',
     },
     {
+      course: terraformCourse,
+      progress: terraform,
+      href: '/terraform',
+      label: '21 Modules + Mock CLI + SRE Drills',
+      badge: 'Deep Dive Track',
+    },
+    {
       course: aiCourse,
       progress: ai,
       href: '/ai',
@@ -160,14 +167,6 @@ export function HomePage() {
       label: '9 Focused Modules · ~30 min',
       badge: '⚡ Fast-Track Crash Course',
       highlight: 'Universal binary management: 4 repo types (local/remote/virtual/federated), Docker & Helm registries, immutable build promotion & Xray scanning.',
-    },
-    {
-      course: terraformCourse,
-      progress: terraform,
-      href: '/terraform',
-      label: '12 Focused Modules · ~45 min',
-      badge: '⚡ Fast-Track Crash Course',
-      highlight: 'Lightweight & beginner-friendly: core HCL syntax, init/plan/apply workflow, remote state locking & modular IaC without cognitive overload.',
     },
   ]
 

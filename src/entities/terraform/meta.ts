@@ -2,24 +2,39 @@ import type { CourseMetadata } from '@/entities/topic'
 
 export const TERRAFORM_METADATA: CourseMetadata = {
   id: 'terraform',
-  title: 'Terraform: Foundations & Practical IaC',
+  title: 'Terraform & OpenTofu: Enterprise Infrastructure as Code',
   slug: 'terraform',
   icon: '🌍',
-  badgeText: 'Basics → Intermediate',
-  tagline: 'Learn Infrastructure as Code from scratch: HCL syntax, core workflow, state, variables, and modules',
+  badgeText: 'Deep Dive Track',
+  tagline: 'Master declarative IaC from first principles to enterprise production: HCL syntax, state locking, modules, loops, refactoring & CI/CD automation',
   description:
-    'A focused, beginner-friendly guide to Infrastructure as Code with Terraform. Master HCL syntax, the core init/plan/apply workflow, cloud providers, input variables, outputs, remote state backends (S3 + DynamoDB), dependencies, and building clean reusable modules.',
+    'The complete zero-to-hero curriculum for Terraform and OpenTofu. Master the 4-command workflow, HCL syntax, resource graphs, loops (count vs for_each), dynamic blocks, S3/DynamoDB remote state locking, zero-downtime refactoring with moved blocks, declarative imports, and interactive CLI plan/apply simulations.',
   quote:
-    '"Terraform allows you to define cloud resources in human-readable configuration files that you can version, reuse, and share across teams."',
-  quoteContext:
-    'HashiCorp — Declarative Infrastructure as Code.',
+    '"Terraform allows you to define cloud resources in human-readable configuration files that you can version, peer-review, test, and safely replicate across environments."',
+  quoteContext: 'HashiCorp & Linux Foundation OpenTofu — Declarative Cloud Infrastructure.',
   footerText:
-    'designed for beginners to intermediate engineers — 12 focused topics · core workflow · remote state · practical modules',
+    'Enterprise Terraform & IaC Curriculum — 21 comprehensive modules · HCL syntax · Remote state locking · Interactive CLI simulation · Incident debug wizard',
   storageKey: 'terraform_progress',
   parts: [
-    { partNo: 'PART 1', title: 'Core Fundamentals & Workflow', subtitle: 'IaC mental models, HCL syntax & providers' },
-    { partNo: 'PART 2', title: 'Variables, Data & Dependencies', subtitle: 'Inputs, locals, outputs, data sources & count/for_each' },
-    { partNo: 'PART 3', title: 'State Management & Modules', subtitle: 'Remote S3/DynamoDB state, locking & building modules' },
-    { partNo: 'PART 4', title: 'Drills & Reference', subtitle: 'Troubleshoot wizard, quiz & essential cheat sheet' },
+    {
+      partNo: 'PART 1',
+      title: 'Foundations, HCL & Core Workflow',
+      subtitle: 'IaC mental models, HCL syntax, the 4-step lifecycle, providers, variables, and DAG graphs',
+    },
+    {
+      partNo: 'PART 2',
+      title: 'Advanced HCL, Loops & Dynamic Blocks',
+      subtitle: 'Data sources, count vs for_each, dynamic blocks, built-in functions & lifecycle controls',
+    },
+    {
+      partNo: 'PART 3',
+      title: 'State Architecture, Refactoring & Mock UI',
+      subtitle: 'S3/DynamoDB remote locking, interactive CLI simulator, moved blocks & declarative imports',
+    },
+    {
+      partNo: 'PART 4',
+      title: 'Enterprise Patterns, CI/CD & Interview Drills',
+      subtitle: 'Module patterns, multi-region aliases, GitHub Actions OIDC, debug wizard, quiz & Q&A bank',
+    },
   ],
 }

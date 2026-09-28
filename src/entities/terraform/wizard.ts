@@ -2,120 +2,101 @@ import type { WizardNode } from '@/entities/topic'
 
 export const TERRAFORM_WIZARD_TREE: Record<string, WizardNode> = {
   start: {
-    q: "What Terraform error or dilemma are you running into?",
+    q: 'What type of Terraform or OpenTofu production issue are you diagnosing?',
     options: [
-      { label: "Error acquiring the state lock ('Lock Info: ... ID: xxxxx-xxxx')", next: "state_lock_error" },
-      { label: "Provider authentication / credentials error (e.g. AWS/Azure NoCredentialProviders)", next: "provider_auth" },
-      { label: "Resource already exists / EntityAlreadyExists error on apply", next: "resource_exists" },
-      { label: "Error: Cycle dependency detected (Resource A depends on B, and B on A)", next: "cycle_error" },
-      { label: "Terraform plan wants to destroy and recreate my resource unexpectedly", next: "destructive_plan" },
-      { label: "Error: Reference to undeclared input variable or output", next: "undeclared_var" },
+      { label: 'State Lock Error: "Error acquiring the state lock / ConditionalCheckFailed"', next: 'state_lock_stuck' },
+      { label: 'Resource Already Exists: "409 Conflict / ResourceAlreadyExists"', next: 'resource_already_exists' },
+      { label: 'Dependency Cycle: "Error: Cycle: aws_security_group..."', next: 'cycle_error' },
+      { label: 'Unintended Resource Re-creation / Destruction on Apply', next: 'unintended_replace' },
+      { label: 'Provider Plugin or Version Constraint Conflict', next: 'provider_conflict' },
+      { label: 'Refactoring / Renaming Resource without Destroying Live Assets', next: 'refactor_move' },
     ],
   },
 
-  state_lock_error: {
+  // 1. State lock stuck
+  state_lock_stuck: {
     result: true,
-    title: "Resolve Stale State Lock",
-    body: "When Terraform runs `apply` with a remote backend (like DynamoDB or Azure Blob), it locks state so two people can't apply at once. If your terminal crashed or CI job was cancelled mid-run, the lock remains stuck.",
+    title: 'Force Unlock a Stuck DynamoDB State Lock',
+    body: 'When a previous `terraform apply` was cancelled abruptly (Ctrl+C, CI/CD runner killed, or network dropout), the DynamoDB lock entry remains in place, blocking subsequent executions.',
     cmds: [
-      "# 1. First verify no teammate or CI pipeline is currently running an active apply!",
-      "",
-      "# 2. Unlock state using the Lock ID shown in your error message:",
-      "terraform force-unlock <LOCK_ID>",
-      "",
-      "# Example: terraform force-unlock 1b4f8e91-7299-4781-a901-ecb731c28b99",
-      "",
-      "# 3. Run plan again to verify state is accessible:",
-      "terraform plan",
+      '# 1. Read the Lock ID from the Terraform error output:',
+      '# "Lock Info: ID: e81b2c45-9812-4f12-b5e1-881249fa1b02"',
+      '# 2. Confirm no one else or no CI/CD pipeline is currently running apply!',
+      '# 3. Release the lock using the force-unlock command:',
+      'terraform force-unlock <LOCK_ID>',
+      '# Example:',
+      'terraform force-unlock e81b2c45-9812-4f12-b5e1-881249fa1b02',
     ],
   },
 
-  provider_auth: {
+  // 2. Resource already exists
+  resource_already_exists: {
     result: true,
-    title: "Configure Cloud Provider Authentication",
-    body: "Terraform needs credentials to communicate with cloud APIs (AWS, Azure, Google Cloud). Never hardcode API keys directly inside `.tf` files!",
+    title: 'Adopt Existing Cloud Resource into Terraform State',
+    body: 'This happens when a cloud resource was created manually via ClickOps or another script, and Terraform attempts to create it with the same name, resulting in a 409 Conflict.',
     cmds: [
-      "# For AWS:",
-      "# Option A: Set environment variables in your terminal session:",
-      "export AWS_ACCESS_KEY_ID='AKIA...'",
-      "export AWS_SECRET_ACCESS_KEY='wJalr...'",
-      "export AWS_REGION='us-east-1'",
-      "",
-      "# Option B: Use AWS CLI profile:",
-      "aws configure --profile dev",
-      "export AWS_PROFILE='dev'",
-      "",
-      "# For Azure / GCP: Run the official CLI login:",
-      "# az login  /  gcloud auth application-default login",
+      '# Option A: In Terraform 1.5+, use declarative import block in your code:',
+      'import {\n  to = aws_s3_bucket.my_bucket\n  id = "my-existing-bucket-name"\n}',
+      '# Then run plan to generate configuration attributes:',
+      'terraform plan -generate-config-out=generated.tf',
+      '# Option B: CLI import (legacy):',
+      'terraform import aws_s3_bucket.my_bucket my-existing-bucket-name',
     ],
   },
 
-  resource_exists: {
-    result: true,
-    title: "Adopt Existing Cloud Resources with 'terraform import'",
-    body: "If a resource was created manually in the AWS Console (ClickOps) and you now declared it in Terraform, Terraform tries to create it again and fails with 'already exists'. You must import it into your state file.",
-    cmds: [
-      "# 1. Make sure the resource block is written in your .tf file:",
-      "# resource \"aws_s3_bucket\" \"app_assets\" { bucket = \"my-existing-bucket\" }",
-      "",
-      "# 2. Import the existing cloud resource ID into Terraform state:",
-      "terraform import aws_s3_bucket.app_assets my-existing-bucket",
-      "",
-      "# (In Terraform 1.5+, you can also use declarative 'import' blocks inside .tf files):",
-      "# import {",
-      "#   to = aws_s3_bucket.app_assets",
-      "#   id = \"my-existing-bucket\"",
-      "# }",
-    ],
-  },
-
+  // 3. Cycle Error
   cycle_error: {
     result: true,
-    title: "Fix Circular (Cycle) Dependency",
-    body: "Terraform builds a Directed Acyclic Graph (DAG). If Resource A references an attribute of Resource B, and Resource B references Resource A, Terraform cannot determine which to create first.",
+    title: 'Resolve Directed Acyclic Graph (DAG) Cycle Errors',
+    body: 'Cycles occur when Resource A references Resource B, and Resource B simultaneously references Resource A (e.g., Security Group A allows Security Group B, and Security Group B allows Security Group A).',
     cmds: [
-      "# Common Example: EC2 Security Group referencing an Instance, while Instance references Security Group.",
-      "",
-      "# Fix: Break the circular link by creating separate rule resources:",
-      "# Instead of inline security group rules, use standalone 'aws_security_group_rule' resources,",
-      "# or create the security group first and reference its ID in the instance.",
+      '# Generate visual dependency graph to pinpoint the circular loop:',
+      'terraform graph | dot -Tsvg > graph.svg',
+      '# FIX: Decouple the bidirectional references by creating standalone child resources:',
+      '# Instead of inline "ingress" blocks inside aws_security_group, use separate "aws_security_group_rule" resources:',
+      'resource "aws_security_group_rule" "allow_app_to_db" {\n  type                     = "ingress"\n  from_port                = 5432\n  to_port                  = 5432\n  protocol                 = "tcp"\n  security_group_id        = aws_security_group.db.id\n  source_security_group_id = aws_security_group.app.id\n}',
     ],
   },
 
-  destructive_plan: {
+  // 4. Unintended replace
+  unintended_replace: {
     result: true,
-    title: "Prevent Unexpected Resource Recreation",
-    body: "Certain cloud attributes (like changing a Subnet CIDR, changing an S3 bucket name, or changing KMS keys) are 'Forces New Resource' by cloud API design.",
+    title: 'Prevent Destructive Resource Replacement on Apply',
+    body: 'Certain cloud attributes (like changing a subnet CIDR, an EC2 AMI, or S3 bucket name) cannot be updated in-place by the cloud API, causing Terraform to plan a destructive `- / + replace`.',
     cmds: [
-      "# 1. Inspect the diff in `terraform plan` for '~' (update in-place) vs '-/+' (destroy and recreate).",
-      "",
-      "# 2. Use lifecycle prevent_destroy to guard critical databases / storage:",
-      "# resource \"aws_db_instance\" \"db\" {",
-      "#   ...",
-      "#   lifecycle {",
-      "#     prevent_destroy = true",
-      "#   }",
-      "# }",
-      "",
-      "# 3. If external changes caused drift you want to ignore, use ignore_changes:",
-      "# lifecycle { ignore_changes = [tags[\"CostCenter\"]] }",
+      '# 1. Use lifecycle { create_before_destroy = true } for zero-downtime swap:',
+      'resource "aws_instance" "web" {\n  # ...\n  lifecycle {\n    create_before_destroy = true\n  }\n}',
+      '# 2. Prevent accidental destruction of databases or critical storage:',
+      'resource "aws_db_instance" "production" {\n  # ...\n  lifecycle {\n    prevent_destroy = true\n  }\n}',
+      '# 3. Ignore external out-of-band updates (e.g. autoscaling tags or replica counts):',
+      'lifecycle {\n  ignore_changes = [tags, desired_capacity]\n}',
     ],
   },
 
-  undeclared_var: {
+  // 5. Provider conflict
+  provider_conflict: {
     result: true,
-    title: "Resolve Undeclared Variable / Reference Errors",
-    body: "You referenced `var.something` in `main.tf`, but forgot to declare `variable \"something\" {}` in `variables.tf`, or misspelled the variable name.",
+    title: 'Resolve Provider Plugin Version Conflicts & Lock File Issues',
+    body: 'Occurs when different modules specify incompatible version constraints or the `.terraform.lock.hcl` file is out of sync across OS architectures (macOS ARM vs Linux AMD64).',
     cmds: [
-      "# 1. Open variables.tf and add the declaration:",
-      "variable \"environment\" {",
-      "  type        = string",
-      "  description = \"Deployment environment (dev, staging, prod)\"",
-      "  default     = \"dev\"",
-      "}",
-      "",
-      "# 2. In your terraform.tfvars, assign the value:",
-      "environment = \"production\"",
+      '# 1. Re-initialize and upgrade providers to the latest allowed version:',
+      'terraform init -upgrade',
+      '# 2. Update multi-platform checksums in .terraform.lock.hcl for CI/CD runners:',
+      'terraform providers lock -platform=windows_amd64 -platform=darwin_arm64 -platform=linux_amd64',
+    ],
+  },
+
+  // 6. Refactor move
+  refactor_move: {
+    result: true,
+    title: 'Refactor Resource / Move into Module with Zero Downtime',
+    body: 'When you rename a resource or extract it into a reusable module, Terraform by default thinks you deleted the old resource and wants to create a new one. `moved {}` blocks tell Terraform it was simply renamed!',
+    cmds: [
+      '# Add a moved block to your .tf file (DO NOT destroy resources):',
+      'moved {\n  from = aws_instance.web\n  to   = module.compute.aws_instance.web\n}',
+      '# Or for simple renaming within root module:',
+      'moved {\n  from = aws_s3_bucket.old_name\n  to   = aws_s3_bucket.new_name\n}',
+      '# When you run "terraform plan", it will show:\n# "aws_instance.web has moved to module.compute.aws_instance.web"\n# with 0 resources destroyed or recreated!',
     ],
   },
 }
