@@ -33,7 +33,7 @@ export type TopicBlock =
   | { t: 'p'; c: string }
   | { t: 'ul'; c: string[] }
   | { t: 'ol'; c: string[] }
-  | { t: 'code'; lang: string; c: string }
+  | { t: 'code'; lang: string; c: string; title?: string }
   | { t: 'note'; kind: 'tip' | 'warn'; c: string }
   | { t: 'analogy'; c: string }
   | { t: 'bars'; title?: string; data: { label: string; value: number; unit?: string }[] }

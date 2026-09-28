@@ -227,7 +227,7 @@ export function TopicBodyRenderer({
         }
 
         if (b.t === 'code') {
-          return <CodeBlock key={idx} code={b.c} lang={b.lang} />
+          return <CodeBlock key={idx} code={b.c} lang={b.lang} title={b.title} />
         }
 
         if (b.t === 'note') {

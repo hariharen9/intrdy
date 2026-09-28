@@ -36,6 +36,10 @@ export const AiPage = lazy(() =>
   import('@/pages/ai').then((page) => ({ default: page.AiPage })),
 )
 
+export const ObservabilityPage = lazy(() =>
+  import('@/pages/observability').then((page) => ({ default: page.ObservabilityPage })),
+)
+
 export const DockerCrashPage = lazy(() =>
   import('@/pages/docker-crash').then((page) => ({ default: page.DockerCrashPage })),
 )

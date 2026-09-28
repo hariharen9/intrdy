@@ -7,6 +7,7 @@ import { ansibleCourse } from '@/entities/ansible'
 import { artifactoryCourse } from '@/entities/artifactory'
 import { terraformCourse } from '@/entities/terraform'
 import { aiCourse } from '@/entities/ai'
+import { observabilityCourse } from '@/entities/observability'
 import { dockerCrashCourse } from '@/entities/docker-crash'
 import { k8sCrashCourse } from '@/entities/k8s-crash'
 import { jenkinsCrashCourse } from '@/entities/jenkins-crash'
@@ -25,6 +26,7 @@ export function HomePage() {
   const artifactory = useProgress(artifactoryCourse.meta.storageKey, artifactoryCourse.topics)
   const terraform = useProgress(terraformCourse.meta.storageKey, terraformCourse.topics)
   const ai = useProgress(aiCourse.meta.storageKey, aiCourse.topics)
+  const observability = useProgress(observabilityCourse.meta.storageKey, observabilityCourse.topics)
   const dockerCrash = useProgress(dockerCrashCourse.meta.storageKey, dockerCrashCourse.topics)
   const k8sCrash = useProgress(k8sCrashCourse.meta.storageKey, k8sCrashCourse.topics)
   const jenkinsCrash = useProgress(jenkinsCrashCourse.meta.storageKey, jenkinsCrashCourse.topics)
@@ -42,12 +44,12 @@ export function HomePage() {
       modulesCount: '16 modules',
     },
     {
-      id: 'observability',
-      icon: '📊',
-      title: 'Prometheus, Grafana & OpenTelemetry',
-      tagline: 'Metrics collection, PromQL, Alertmanager, Loki logs & distributed tracing.',
+      id: 'aws-cloud',
+      icon: '☁️',
+      title: 'AWS Cloud Architecture & Networking',
+      tagline: 'VPC design, IAM least-privilege, EKS architecture, S3 security & Route 53.',
       status: 'Coming Soon',
-      modulesCount: '15 modules',
+      modulesCount: '18 modules',
     },
   ]
 
@@ -64,6 +66,13 @@ export function HomePage() {
       progress: k8s,
       href: '/kubernetes',
       label: '20 Modules + 23 Scenarios',
+      badge: 'Deep Dive Track',
+    },
+    {
+      course: observabilityCourse,
+      progress: observability,
+      href: '/observability',
+      label: '13 Modules + Mock UIs + SRE Drills',
       badge: 'Deep Dive Track',
     },
     {
@@ -223,10 +232,10 @@ export function HomePage() {
               🌍 Terraform
             </Link>
             <Link
-              to="/ai"
+              to="/observability"
               className="text-xs mono font-semibold px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel2)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition text-[var(--muted)]"
             >
-              🤖 AI & LLMs
+              📊 Prometheus &amp; Grafana
             </Link>
             <ThemeToggle />
           </div>

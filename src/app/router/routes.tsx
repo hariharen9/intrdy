@@ -16,6 +16,7 @@ import {
   NotFoundPage,
   TerraformPage,
   AiPage,
+  ObservabilityPage,
 } from './lazy-pages'
 import { ROUTES } from './paths'
 import { RouteErrorFallback } from './route-error-fallback'
@@ -65,6 +66,11 @@ export const routes: RouteObject[] = [
   {
     path: ROUTES.ai,
     element: withPageBoundary(<AiPage />),
+    errorElement: <RouteErrorFallback />,
+  },
+  {
+    path: ROUTES.observability,
+    element: withPageBoundary(<ObservabilityPage />),
     errorElement: <RouteErrorFallback />,
   },
   {

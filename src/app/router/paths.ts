@@ -8,6 +8,7 @@ export const ROUTES = {
   artifactory: '/artifactory',
   terraform: '/terraform',
   ai: '/ai',
+  observability: '/observability',
   dockerCrash: '/docker-crash',
   k8sCrash: '/k8s-crash',
   jenkinsCrash: '/jenkins-crash',
